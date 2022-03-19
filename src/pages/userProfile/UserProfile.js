@@ -4,7 +4,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Navigator from '../../components/Navigator.js';
-//import Content from './Content';
+import Content from './ProfileContent.js';
 
 let theme = createTheme({
   palette: {
@@ -183,16 +183,7 @@ export default function UserProfile() {
         </Box>
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#eaeff1' }}>
-            {/* you can put your content within this box */}
-            <h1>User Profile</h1> {/* placeholder can delete this line after designing */}
-
-
-
-
-
-
-
-
+            <Content />
           </Box>
         </Box>
       </Box>
