@@ -13,6 +13,10 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
+import Navigator from '../../components/Navigator';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { theme, drawerWidth } from '../../components/themes';
 
 function Copyright(props) {
   return (
@@ -92,12 +96,43 @@ const footers = [
   },
 ];
 
+
+
 export default function ChallengeDetail() {
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
   return (
+    
     <React.Fragment>
-      <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
+      {/* <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} /> */}
+      <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppBar
+      <Box
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        >
+          {isSmUp ? null : (
+            <Navigator
+              PaperProps={{ style: { width: drawerWidth } }}
+              variant="temporary"
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+            />
+          )}
+
+          <Navigator
+            PaperProps={{ style: { width: drawerWidth } }}
+            sx={{ display: { sm: 'block', xs: 'none' } }}
+          />
+        </Box>
+        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#eaeff1' }}>
+          <AppBar
         position="static"
         color="default"
         elevation={0}
@@ -252,6 +287,12 @@ export default function ChallengeDetail() {
         <Copyright sx={{ mt: 5 }} />
       </Container>
       {/* End footer */}
+          </Box>
+        </Box>
+      </ThemeProvider>
+      <CssBaseline />
+      
+      
     </React.Fragment>
   );
 }
