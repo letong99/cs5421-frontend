@@ -10,7 +10,7 @@ import NavigatorBar from "./components/NavigatorBar";
 const AppRouter = (props) => {
   return (
     <Switch>
-      <Route path="/details">
+      <Route path="/details/:id">
           <NavigatorBar component={<ChallengeDetail />} />
       </Route>
       <Route path="/profile">

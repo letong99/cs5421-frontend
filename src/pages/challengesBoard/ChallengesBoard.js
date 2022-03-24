@@ -14,11 +14,13 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
+import { useHistory } from 'react-router-dom'; // version 5.2.0
 
 const columnsPerRow = 4;
 
 const tiers = [
   {
+    id: "1",
     title: "Challenge 1",
     subtitle: "Subtitle challenge 1",
     description: [
@@ -31,6 +33,7 @@ const tiers = [
     buttonVariant: "outlined",
   },
   {
+    id: "2",
     title: "Challenge 2",
     subtitle: "Subtitle challenge",
     description: [
@@ -44,6 +47,7 @@ const tiers = [
     buttonVariant: "outlined",
   },
   {
+    id: "3",
     title: "Challenge 3",
     subtitle: "Subtitle challenge",
     description: [
@@ -56,6 +60,7 @@ const tiers = [
     buttonVariant: "outlined",
   },
   {
+    id: "4",
     title: "Challenge 3",
     subtitle: "Subtitle challenge",
     description: [
@@ -68,6 +73,7 @@ const tiers = [
     buttonVariant: "outlined",
   },
   {
+    id: "5",
     title: "Challenge 3",
     subtitle: "Subtitle challenge",
     description: [
@@ -80,6 +86,7 @@ const tiers = [
     buttonVariant: "outlined",
   },
   {
+    id: "6",
     title: "Challenge 3",
     subtitle: "Subtitle challenge",
     description: [
@@ -92,6 +99,7 @@ const tiers = [
     buttonVariant: "outlined",
   },
   {
+    id: "7",
     title: "Challenge 3",
     subtitle: "Subtitle challenge",
     description: [
@@ -104,6 +112,7 @@ const tiers = [
     buttonVariant: "outlined",
   },
   {
+    id: "8",
     title: "Challenge 3",
     subtitle: "Subtitle challenge",
     description: [
@@ -118,16 +127,22 @@ const tiers = [
 ];
 
 export default function UserProfile() {
+  let history = useHistory ();
+  
+  const handleClick = (id) => {
+    console.log(id);
+    history.push(`/details/${id}`)
+  };
 
   return (
     <React.Fragment>
-      <h1>Challenge Board</h1>{" "}
+      <h1>Challenges Board</h1>{" "}
       {/* placeholder can delete this line after designing */}
       <Container maxWidth="md" component="main">
         <Grid container spacing={10} alignItems="flex-end">
           {tiers.map((tier) => (
             // Enterprise card is full width at sm breakpoint
-            <Grid item key={tier.title} xs={12} md={6}>
+            <Grid item key={tier.id} xs={12} md={6}>
               <Card>
                 <CardHeader
                   title={tier.title}
@@ -175,7 +190,11 @@ export default function UserProfile() {
                   </ul>
                 </CardContent>
                 <CardActions>
-                  <Button fullWidth variant={tier.buttonVariant}>
+                  <Button
+                    fullWidth
+                    variant={tier.buttonVariant}
+                    onClick={() => handleClick(tier.id)}
+                  >
                     {tier.buttonText}
                   </Button>
                 </CardActions>

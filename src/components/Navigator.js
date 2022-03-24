@@ -44,10 +44,6 @@ const itemCategory = {
 export default function Navigator(props) {
   const { ...other } = props;
 
-  const onClick = (id) => {
-    console.log(id);
-  };
-
   return (
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
@@ -57,12 +53,12 @@ export default function Navigator(props) {
           SQL Challenge
         </ListItem>
         {categories.map(({ id, children }) => (
-          <Box sx={{ bgcolor: "#101F33" }}>
+          <Box sx={{ bgcolor: "#101F33" }} key={id}>
             <ListItem sx={{ py: 2, px: 3 }}>
               <ListItemText sx={{ color: "#fff" }}>{id}</ListItemText>
             </ListItem>
             {children.map(({ id: childId, icon, active, path }) => (
-              <NavLink to={path} style={{ textDecoration: "none" }} key={id}>
+              <NavLink to={path} style={{ textDecoration: "none" }} key={childId}>
                 <ListItem disablePadding key={childId}>
                   <ListItemButton selected={active} sx={item}>
                     <ListItemIcon>{icon}</ListItemIcon>
