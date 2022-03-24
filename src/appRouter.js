@@ -1,22 +1,30 @@
-import React from 'react';
+import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { ChallengeDetail } from './pages';
-import UserProfile from './pages/userProfile/UserProfile.js';
-import ChallengesBoard from './pages/challengesBoard/ChallengesBoard.js';
-import { Login } from './pages';
-import ChallengeCreate from './pages/challengeCreate/ChallengeCreate.js';
-
+import { ChallengeDetail } from "./pages";
+import ChallengesBoard from "./pages/challengesBoard/ChallengesBoard.js";
+import { Login } from "./pages";
+import ChallengeCreate from "./pages/challengeCreate/ChallengeCreate.js";
+import ProfileContent from "./pages/userProfile/ProfileContent";
+import NavigatorBar from "./components/NavigatorBar";
 
 const AppRouter = (props) => {
-    return (
-        <Switch>
-            <Route path="/details" component={ChallengeDetail}/> 
-            <Route path="/profile" component={UserProfile}/>
-            <Route path="/challenges" component={ChallengesBoard}/>
-            <Route path="/login" component={Login}/>
-            <Route path='/create' component = {ChallengeCreate}/>
-        </Switch>
-    )
-}
+  return (
+    <Switch>
+      <Route path="/details">
+          <NavigatorBar component={<ChallengeDetail />} />
+      </Route>
+      <Route path="/profile">
+          <NavigatorBar component={<ProfileContent />} />
+      </Route>
+      <Route path="/challenges" >
+          <NavigatorBar component={<ChallengesBoard />} />
+      </Route>
+      <Route path="/create" >
+          <NavigatorBar component={<ChallengeCreate />} />
+      </Route>
+      <Route path="/login" component={Login} />
+    </Switch>
+  );
+};
 
 export default AppRouter;

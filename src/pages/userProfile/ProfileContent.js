@@ -78,7 +78,7 @@ const userAttempt = [
     }
 ]
 
-export default function Content() {
+export default function ProfileContent() {
   return (
     <div>
         <h1>User Profile</h1>
