@@ -9,7 +9,6 @@ import { theme, drawerWidth } from "./themes";
 
 export default function NavigatorBar(props) {
     const { component, ...other } = props;
-    console.log(component)
   
     const isSmUp = useMediaQuery(theme.breakpoints.up("sm"));
 

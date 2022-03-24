@@ -1,40 +1,42 @@
-import * as React from 'react';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import Box from '@mui/material/Box';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import PeopleIcon from '@mui/icons-material/People';
-import TrophyIcon from '@mui/icons-material/EmojiEvents';
+import * as React from "react";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import Box from "@mui/material/Box";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import PeopleIcon from "@mui/icons-material/People";
+import TrophyIcon from "@mui/icons-material/EmojiEvents";
+import { NavLink, withRouter } from "react-router-dom";
 
 const categories = [
   {
-    id: 'CS5421',
+    id: "CS5421",
     children: [
       {
-        id: 'My Profile',
+        id: "My Profile",
         icon: <PeopleIcon />,
         active: true,
+        path: "/profile",
       },
-      { id: 'Challenges', icon: <TrophyIcon /> },
+      { id: "Challenges", icon: <TrophyIcon />, path: "/challenges" },
     ],
   },
 ];
 
 const item = {
-  py: '2px',
+  py: "2px",
   px: 3,
-  color: 'rgba(255, 255, 255, 0.7)',
-  '&:hover, &:focus': {
-    bgcolor: 'rgba(255, 255, 255, 0.08)',
+  color: "rgba(255, 255, 255, 0.7)",
+  "&:hover, &:focus": {
+    bgcolor: "rgba(255, 255, 255, 0.08)",
   },
 };
 
 const itemCategory = {
-  boxShadow: '0 -1px 0 rgb(255,255,255,0.1) inset',
+  boxShadow: "0 -1px 0 rgb(255,255,255,0.1) inset",
   py: 1.5,
   px: 3,
 };
@@ -42,26 +44,33 @@ const itemCategory = {
 export default function Navigator(props) {
   const { ...other } = props;
 
+  const onClick = (id) => {
+    console.log(id);
+  };
+
   return (
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
-        <ListItem sx={{ ...item, ...itemCategory, fontSize: 22, color: '#fff' }}>
+        <ListItem
+          sx={{ ...item, ...itemCategory, fontSize: 22, color: "#fff" }}
+        >
           SQL Challenge
         </ListItem>
         {categories.map(({ id, children }) => (
-          <Box key={id} sx={{ bgcolor: '#101F33' }}>
+          <Box sx={{ bgcolor: "#101F33" }}>
             <ListItem sx={{ py: 2, px: 3 }}>
-              <ListItemText sx={{ color: '#fff' }}>{id}</ListItemText>
+              <ListItemText sx={{ color: "#fff" }}>{id}</ListItemText>
             </ListItem>
-            {children.map(({ id: childId, icon, active }) => (
-              <ListItem disablePadding key={childId}>
-                <ListItemButton selected={active} sx={item}>
-                  <ListItemIcon>{icon}</ListItemIcon>
-                  <ListItemText>{childId}</ListItemText>
-                </ListItemButton>
-              </ListItem>
+            {children.map(({ id: childId, icon, active, path }) => (
+              <NavLink to={path} style={{ textDecoration: "none" }} key={id}>
+                <ListItem disablePadding key={childId}>
+                  <ListItemButton selected={active} sx={item}>
+                    <ListItemIcon>{icon}</ListItemIcon>
+                    <ListItemText>{childId}</ListItemText>
+                  </ListItemButton>
+                </ListItem>
+              </NavLink>
             ))}
-
             <Divider sx={{ mt: 2 }} />
           </Box>
         ))}
