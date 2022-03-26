@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Box from '@mui/material/Box';
 import './profile.css';
+import { useState, useEffect } from 'react';
 
 /* GET users/:user_id - Gets user by user ID {
     "status": "success",
