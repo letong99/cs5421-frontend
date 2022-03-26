@@ -4,8 +4,9 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CodeEditor from "@uiw/react-textarea-code-editor";
 
-export default function ChallengeInfo() {
+export default function ChallengeInfoEditable() {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -80,10 +81,7 @@ export default function ChallengeInfo() {
           <Typography sx={{ width: '33%', flexShrink: 0 }}>Test Cases</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit
-            amet egestas eros, vitae egestas augue. Duis vel est augue.
-          </Typography>
+          <CodeEditor />
         </AccordionDetails>
       </Accordion>
     </div>
