@@ -25,7 +25,6 @@ import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
-
 const categories = [
   {
     id: "CS5421",
@@ -33,10 +32,10 @@ const categories = [
       {
         id: "My Profile",
         icon: <PeopleIcon />,
-        active: true,
         path: "/profile",
+        active: false
       },
-      { id: "Challenges", icon: <TrophyIcon />, path: "/challenges" },
+      { id: "Challenges", icon: <TrophyIcon />, path: "/challenges", active: false},
     ],
   },
 ];
