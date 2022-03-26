@@ -7,7 +7,7 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
-import { CodeBlock, dracula } from "react-code-blocks";
+import { CopyBlock, dracula } from "react-code-blocks";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Button from "@mui/material/Button";
@@ -43,7 +43,7 @@ export default function LeaderBoardRow(props) {
               <Typography variant="h6" gutterBottom component="div">
                 Query Submitted
               </Typography>
-              <CodeBlock
+              <CopyBlock
                 text={`SELECT * FROM db;`}
                 language={"sql"}
                 //   showLineNumbers={showLineNumbers}
