@@ -14,7 +14,10 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-import { useHistory } from 'react-router-dom'; // version 5.2.0
+import { useHistory } from 'react-router-dom';
+import { useState } from "react";
+import { useEffect } from "react"; // version 5.2.0
+
 
 const columnsPerRow = 4;
 
@@ -126,13 +129,19 @@ const tiers = [
   },
 ];
 
-export default function UserProfile() {
+export default function ChallengesBoard() {
   let history = useHistory ();
   
   const handleClick = (id) => {
     console.log(id);
     history.push(`/details/${id}`)
   };
+  let [challengeName, setChallengName] = useState("To Be fetched");
+  let [records, setRecords] = useState();
+
+  useEffect(() => {
+    // fetch from APIs
+  });
 
   return (
     <React.Fragment>
