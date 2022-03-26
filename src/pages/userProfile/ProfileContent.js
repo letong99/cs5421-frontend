@@ -78,7 +78,17 @@ const userAttempt = [
     }
 ]
 
+
+
 export default function ProfileContent() {
+
+  let [challengeName, setChallengName] = useState("To Be fetched");
+  let [records, setRecords] = useState();
+
+  useEffect(() => {
+    // fetch from APIs
+  });
+
   return (
     <div>
         <h1>User Profile</h1>
