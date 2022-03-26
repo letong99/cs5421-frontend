@@ -25,12 +25,9 @@ const tiers = [
   {
     id: "1",
     title: "Challenge 1",
-    subtitle: "Subtitle challenge 1",
+    subtitle: "Creator name",
     description: [
-      "This challenge is about ",
       "Some text with description",
-      "And i guess text about amount of participants",
-      "And also how many days left till the end of the challenge ",
     ],
     buttonText: "Participate",
     buttonVariant: "outlined",
@@ -38,12 +35,9 @@ const tiers = [
   {
     id: "2",
     title: "Challenge 2",
-    subtitle: "Subtitle challenge",
+    subtitle: "Creator name",
     description: [
-      "This challenge is about ",
       "Some text with description",
-      "And i guess text about amount of participants",
-      "And also how many days left till the end of the challenge ",
     ],
     buttonText: "Participate",
     // buttonVariant: 'contained',
@@ -52,12 +46,9 @@ const tiers = [
   {
     id: "3",
     title: "Challenge 3",
-    subtitle: "Subtitle challenge",
+    subtitle: "Creator name",
     description: [
-      "This challenge is about ",
       "Some text with description",
-      "And i guess text about amount of participants",
-      "And also how many days left till the end of the challenge ",
     ],
     buttonText: "Participate",
     buttonVariant: "outlined",
@@ -65,12 +56,9 @@ const tiers = [
   {
     id: "4",
     title: "Challenge 3",
-    subtitle: "Subtitle challenge",
+    subtitle: "Creator name",
     description: [
-      "This challenge is about ",
       "Some text with description",
-      "And i guess text about amount of participants",
-      "And also how many days left till the end of the challenge ",
     ],
     buttonText: "Participate",
     buttonVariant: "outlined",
@@ -78,12 +66,9 @@ const tiers = [
   {
     id: "5",
     title: "Challenge 3",
-    subtitle: "Subtitle challenge",
+    subtitle: "Creator name",
     description: [
-      "This challenge is about ",
       "Some text with description",
-      "And i guess text about amount of participants",
-      "And also how many days left till the end of the challenge ",
     ],
     buttonText: "Participate",
     buttonVariant: "outlined",
@@ -91,12 +76,9 @@ const tiers = [
   {
     id: "6",
     title: "Challenge 3",
-    subtitle: "Subtitle challenge",
+    subtitle: "Creator name",
     description: [
-      "This challenge is about ",
       "Some text with description",
-      "And i guess text about amount of participants",
-      "And also how many days left till the end of the challenge ",
     ],
     buttonText: "Participate",
     buttonVariant: "outlined",
@@ -104,12 +86,9 @@ const tiers = [
   {
     id: "7",
     title: "Challenge 3",
-    subtitle: "Subtitle challenge",
+    subtitle: "Creator name",
     description: [
-      "This challenge is about ",
       "Some text with description",
-      "And i guess text about amount of participants",
-      "And also how many days left till the end of the challenge ",
     ],
     buttonText: "Participate",
     buttonVariant: "outlined",
@@ -117,12 +96,9 @@ const tiers = [
   {
     id: "8",
     title: "Challenge 3",
-    subtitle: "Subtitle challenge",
+    subtitle: "Creator name",
     description: [
-      "This challenge is about ",
       "Some text with description",
-      "And i guess text about amount of participants",
-      "And also how many days left till the end of the challenge ",
     ],
     buttonText: "Participate",
     buttonVariant: "outlined",
@@ -163,10 +139,10 @@ export default function ChallengesBoard() {
         </Button>
       </div>
       <Container maxWidth="md" component="main">
-        <Grid container spacing={10} alignItems="flex-end">
+        <Grid container spacing={3} alignItems="flex-end">
           {tiers.map((tier) => (
             // Enterprise card is full width at sm breakpoint
-            <Grid item key={tier.id} xs={12} md={6}>
+            <Grid item key={tier.id} xs={12} md={4}>
               <Card>
                 <CardHeader
                   title={tier.title}
@@ -193,7 +169,7 @@ export default function ChallengesBoard() {
                   >
                     <Typography
                       component="h4"
-                      variant="h5"
+                      variant="h6"
                       color="text.primary"
                       align="center"
                     >
@@ -205,7 +181,7 @@ export default function ChallengesBoard() {
                       <Typography
                         // component="li"
                         variant="subtitle1"
-                        align="center"
+                        align="left"
                         key={line}
                       >
                         {line}
