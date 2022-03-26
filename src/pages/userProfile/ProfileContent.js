@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Box from '@mui/material/Box';
 import './profile.css';
+import { useState, useEffect } from 'react';
 
 /* GET users/:user_id - Gets user by user ID {
     "status": "success",
@@ -78,7 +79,17 @@ const userAttempt = [
     }
 ]
 
+
+
 export default function ProfileContent() {
+
+  let [challengeName, setChallengName] = useState("To Be fetched");
+  let [records, setRecords] = useState();
+
+  useEffect(() => {
+    // fetch from APIs
+  });
+
   return (
     <div>
         <h1>User Profile</h1>
