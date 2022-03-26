@@ -129,6 +129,8 @@ const tiers = [
   },
 ];
 
+
+
 export default function ChallengesBoard() {
   let history = useHistory ();
   
@@ -136,6 +138,10 @@ export default function ChallengesBoard() {
     console.log(id);
     history.push(`/details/${id}`)
   };
+  const routeChange = () => {
+    let path = `/create`;
+    history.push(path);
+  }
   let [challengeName, setChallengName] = useState("To Be fetched");
   let [records, setRecords] = useState();
 
@@ -143,10 +149,19 @@ export default function ChallengesBoard() {
     // fetch from APIs
   });
 
+
   return (
     <React.Fragment>
       <h1>Challenges Board</h1>{" "}
       {/* placeholder can delete this line after designing */}
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <Button onClick={routeChange}
+                color="primary"
+                variant="outlined"
+                >
+          New challenge
+        </Button>
+      </div>
       <Container maxWidth="md" component="main">
         <Grid container spacing={10} alignItems="flex-end">
           {tiers.map((tier) => (
@@ -210,8 +225,12 @@ export default function ChallengesBoard() {
               </Card>
             </Grid>
           ))}
+
         </Grid>
+
       </Container>
+
+
     </React.Fragment>
   );
 }
