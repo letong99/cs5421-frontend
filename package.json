@@ -53,6 +53,7 @@
     ]
   },
   "devDependencies": {
+    "@mui/lab": "^5.0.0-alpha.74",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.7"
   }

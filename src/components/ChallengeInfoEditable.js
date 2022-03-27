@@ -5,6 +5,9 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CodeEditor from "@uiw/react-textarea-code-editor";
+import TextField from "@mui/material/TextField";
+import DateTimePicker from '@mui/lab/DateTimePicker';
+import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 
 export default function ChallengeInfoEditable() {
   const [expanded, setExpanded] = React.useState(false);
@@ -12,6 +15,8 @@ export default function ChallengeInfoEditable() {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+
+
 
   return (
     <div>
@@ -27,10 +32,11 @@ export default function ChallengeInfoEditable() {
           <Typography sx={{ color: 'text.secondary' }}>description</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat.
-            Aliquam eget maximus est, id dignissim quam.
-          </Typography>
+          <TextField
+            fullWidth
+          id = 'description'
+          label = 'Description'
+          multiline/>
         </AccordionDetails>
       </Accordion>
       <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
@@ -45,11 +51,13 @@ export default function ChallengeInfoEditable() {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Donec placerat, lectus sed mattis semper, neque lectus feugiat lectus,
-            varius pulvinar diam eros in elit. Pellentesque convallis laoreet
-            laoreet.
-          </Typography>
+          {/*<DesktopDatePicker*/}
+          {/*  label="Date desktop"*/}
+          {/*  inputFormat="MM/dd/yyyy"*/}
+          {/*  value={value}*/}
+          {/*  onChange={handleChange}*/}
+          {/*  renderInput={(params) => <TextField {...params} />}*/}
+          {/*/>*/}
         </AccordionDetails>
       </Accordion>
       <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
@@ -66,10 +74,11 @@ export default function ChallengeInfoEditable() {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit
-            amet egestas eros, vitae egestas augue. Duis vel est augue.
-          </Typography>
+          <TextField
+            fullWidth
+            id = 'datasets'
+            label = 'queries'
+            multiline/>
         </AccordionDetails>
       </Accordion>
       <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
@@ -81,7 +90,11 @@ export default function ChallengeInfoEditable() {
           <Typography sx={{ width: '33%', flexShrink: 0 }}>Test Cases</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <CodeEditor />
+          <TextField
+            fullWidth
+            id = 'test cases'
+            label = 'test cases'
+            multiline/>
         </AccordionDetails>
       </Accordion>
     </div>

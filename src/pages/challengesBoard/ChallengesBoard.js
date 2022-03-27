@@ -16,7 +16,11 @@ import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import { useHistory } from 'react-router-dom';
 import { useState } from "react";
-import { useEffect } from "react"; // version 5.2.0
+import { useEffect } from "react";
+import FloatButton from "../../components/FloatButton"; // version 5.2.0
+import CreateChallenge from "./CreateChallenge";
+import NewAttempt from "../challengeDetail/components/NewAttempt";
+import Dialog from "@mui/material/Dialog";
 
 
 const columnsPerRow = 4;
@@ -107,6 +111,7 @@ const tiers = [
 
 
 
+
 export default function ChallengesBoard() {
   let history = useHistory ();
   
@@ -124,19 +129,38 @@ export default function ChallengesBoard() {
   useEffect(() => {
     // fetch from APIs
   });
+  let [displayNewAttemptDialogue, setDisplayNewAttemptDialogue] = useState(
+    false
+  );
+  let [displaySuccess, setDisplaySuccess] = useState(false);
+  let [displayError, setDisplayError] = useState(false);
+  const handleCloseNewAttempt = () => {
+    // TODO: API post
+    let result = "dffsd";
+    if (result === "SUCCESS") {
+      setDisplaySuccess(true);
+    } else if (result === "ERROR") {
+      setDisplayError(true);
+    }
+    setDisplayNewAttemptDialogue(false);
+  };
 
+  const handleClickNewAttempt = () => {
+    console.log("click");
+    setDisplayNewAttemptDialogue(true);
+  };
 
   return (
     <React.Fragment>
       <h1>Challenges Board</h1>{" "}
       {/* placeholder can delete this line after designing */}
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button onClick={routeChange}
-                color="primary"
-                variant="outlined"
-                >
-          New challenge
-        </Button>
+        {/*<Button onClick={routeChange}*/}
+        {/*        color="primary"*/}
+        {/*        variant="outlined"*/}
+        {/*        >*/}
+        {/*  New challenge*/}
+        {/*</Button>*/}
       </div>
       <Container maxWidth="md" component="main">
         <Grid container spacing={3} alignItems="flex-end">
@@ -197,6 +221,21 @@ export default function ChallengesBoard() {
                   >
                     {tier.buttonText}
                   </Button>
+                  <Dialog
+                    container={() => document.getElementById("detail-content")}
+                    onClose={handleCloseNewAttempt}
+                    open={displayNewAttemptDialogue}
+                    style={{
+                      position: "flex",
+                    }}
+                    PaperProps={{ sx: { width: "70%" } }}
+                  >
+                    <CreateChallenge
+                      handleClose={handleCloseNewAttempt}
+                      challengeName={challengeName}
+                    />
+                  </Dialog>
+                  <FloatButton handleClick={handleClickNewAttempt} />
                 </CardActions>
               </Card>
             </Grid>
