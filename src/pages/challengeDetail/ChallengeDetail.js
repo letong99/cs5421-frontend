@@ -121,16 +121,16 @@ export default function ChallengeDetail(props) {
       </Container>
       {/* End hero unit */}
       <Container disableGutters component="main" sx={{ pt: 8, pb: 6 }}>
-        <Grid container spacing={5} alignItems="flex-end">
-          <Grid item>
+        {/* <Grid container spacing={5} > */}
+          <Grid item sx={{ pt: 2, pb: 2 }}>
             <Typography variant="h6" color="text.primary">
               <b>Challenge descriptions</b>
             </Typography>
           </Grid>
-          <Grid item>
+          <Grid item sx={{ pt: 2, pb: 2 }}>
             <ChallengeInfo />
           </Grid>
-        </Grid>
+        {/* </Grid> */}
       </Container>
       {/* Footer */}
       <Container
