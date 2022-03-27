@@ -9,7 +9,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "../../components/Alert";
-import ChallengeInfo from "../../components/ChallengeInfoEditable";
+import ChallengeInfoEditable from "../../components/ChallengeInfoEditable";
 
 const theme = createTheme();
 
@@ -49,7 +49,7 @@ export default function CreateChallenge(props) {
           }}
         >
           <Typography component="h3" variant="h5">
-            Create New Challenge to: {challengeName}
+            Create New Challenge
           </Typography>
           <Box
             component="form"
@@ -62,7 +62,7 @@ export default function CreateChallenge(props) {
                 <Typography component="h5">Challenge descriptions: </Typography>
               </Grid>
               <Grid item xs={12}>
-                <ChallengeInfo />
+                <ChallengeInfoEditable />
               </Grid>
 
 
