@@ -14,14 +14,13 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import FloatButton from "../../components/FloatButton"; // version 5.2.0
 import CreateChallenge from "./CreateChallenge";
 import NewAttempt from "../challengeDetail/components/NewAttempt";
 import Dialog from "@mui/material/Dialog";
-
 
 const columnsPerRow = 4;
 
@@ -30,9 +29,7 @@ const tiers = [
     id: "1",
     title: "Challenge 1",
     subtitle: "Creator name",
-    description: [
-      "Some text with description",
-    ],
+    description: ["Some text with description"],
     buttonText: "Participate",
     buttonVariant: "outlined",
   },
@@ -40,9 +37,7 @@ const tiers = [
     id: "2",
     title: "Challenge 2",
     subtitle: "Creator name",
-    description: [
-      "Some text with description",
-    ],
+    description: ["Some text with description"],
     buttonText: "Participate",
     // buttonVariant: 'contained',
     buttonVariant: "outlined",
@@ -51,9 +46,7 @@ const tiers = [
     id: "3",
     title: "Challenge 3",
     subtitle: "Creator name",
-    description: [
-      "Some text with description",
-    ],
+    description: ["Some text with description"],
     buttonText: "Participate",
     buttonVariant: "outlined",
   },
@@ -61,9 +54,7 @@ const tiers = [
     id: "4",
     title: "Challenge 3",
     subtitle: "Creator name",
-    description: [
-      "Some text with description",
-    ],
+    description: ["Some text with description"],
     buttonText: "Participate",
     buttonVariant: "outlined",
   },
@@ -71,9 +62,7 @@ const tiers = [
     id: "5",
     title: "Challenge 3",
     subtitle: "Creator name",
-    description: [
-      "Some text with description",
-    ],
+    description: ["Some text with description"],
     buttonText: "Participate",
     buttonVariant: "outlined",
   },
@@ -81,9 +70,7 @@ const tiers = [
     id: "6",
     title: "Challenge 3",
     subtitle: "Creator name",
-    description: [
-      "Some text with description",
-    ],
+    description: ["Some text with description"],
     buttonText: "Participate",
     buttonVariant: "outlined",
   },
@@ -91,9 +78,7 @@ const tiers = [
     id: "7",
     title: "Challenge 3",
     subtitle: "Creator name",
-    description: [
-      "Some text with description",
-    ],
+    description: ["Some text with description"],
     buttonText: "Participate",
     buttonVariant: "outlined",
   },
@@ -101,28 +86,23 @@ const tiers = [
     id: "8",
     title: "Challenge 3",
     subtitle: "Creator name",
-    description: [
-      "Some text with description",
-    ],
+    description: ["Some text with description"],
     buttonText: "Participate",
     buttonVariant: "outlined",
   },
 ];
 
-
-
-
 export default function ChallengesBoard() {
-  let history = useHistory ();
-  
+  let history = useHistory();
+
   const handleClick = (id) => {
     console.log(id);
-    history.push(`/details/${id}`)
+    history.push(`/details/${id}`);
   };
   const routeChange = () => {
     let path = `/create`;
     history.push(path);
-  }
+  };
   let [challengeName, setChallengName] = useState("To Be fetched");
   let [records, setRecords] = useState();
 
@@ -221,31 +201,27 @@ export default function ChallengesBoard() {
                   >
                     {tier.buttonText}
                   </Button>
-                  <Dialog
-                    container={() => document.getElementById("detail-content")}
-                    onClose={handleCloseNewAttempt}
-                    open={displayNewAttemptDialogue}
-                    style={{
-                      position: "flex",
-                    }}
-                    PaperProps={{ sx: { width: "70%" } }}
-                  >
-                    <CreateChallenge
-                      handleClose={handleCloseNewAttempt}
-                      challengeName={challengeName}
-                    />
-                  </Dialog>
-                  <FloatButton handleClick={handleClickNewAttempt} />
                 </CardActions>
               </Card>
             </Grid>
           ))}
-
         </Grid>
-
+        <Dialog
+          container={() => document.getElementById("detail-content")}
+          onClose={handleCloseNewAttempt}
+          open={displayNewAttemptDialogue}
+          style={{
+            position: "flex",
+          }}
+          PaperProps={{ sx: { width: "70%" } }}
+        >
+          <CreateChallenge
+            handleClose={handleCloseNewAttempt}
+            challengeName={challengeName}
+          />
+        </Dialog>
+        <FloatButton handleClick={handleClickNewAttempt} />
       </Container>
-
-
     </React.Fragment>
   );
 }

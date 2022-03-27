@@ -64,8 +64,6 @@ export default function CreateChallenge(props) {
               <Grid item xs={12}>
                 <ChallengeInfoEditable />
               </Grid>
-
-
             </Grid>
             <Button
               type="submit"
