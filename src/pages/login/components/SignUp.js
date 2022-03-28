@@ -1,36 +1,64 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
+import React, { useState, useEffect } from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
 
 const theme = createTheme();
 
 export default function SignUp(props) {
+  const [displaySuccess, setDisplaySuccess] = useState(false);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     props.handleClose();
+    console.log(process.env.REACT_APP_API_URL);
     const data = new FormData(event.currentTarget);
+
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/register`,
+        {
+          email: data.get("email"),
+          unsafe_password: data.get("password"),
+          full_name: data.get("name"),
+          role: data.get("role"),
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then( (response) => {
+        console.log("response", response);
+        if (response.status === 200) {
+          props.handleSuccess(true);
+        }
+      })
+      .catch((error) => {
+        props.handleError(error);
+      });
     console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
-      role: data.get('role')
+      email: data.get("email"),
+      password: data.get("password"),
+      name: data.get("name"),
+      role: data.get("role"),
     });
-    console.log(data);
+    // console.log(data);
   };
 
   return (
@@ -40,38 +68,33 @@ export default function SignUp(props) {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}
+          >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
-                  autoComplete="given-name"
-                  name="firstName"
+                  autoComplete="name"
+                  name="name"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
+                  id="name"
+                  label="Name"
                   autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -96,15 +119,24 @@ export default function SignUp(props) {
                 />
               </Grid>
               <Grid item xs={12}>
-              <FormLabel id="role">Are you a...</FormLabel>
-      <RadioGroup
-        defaultValue="student"
-        name="role"
-      >
-        <FormControlLabel value="student" control={<Radio />} label="Female" />
-        <FormControlLabel value="professor" control={<Radio />} label="Male" />
-        <FormControlLabel value="ta" control={<Radio />} label="Other" />
-      </RadioGroup>
+                <FormLabel id="role">Are you a...</FormLabel>
+                <RadioGroup defaultValue="student" name="role">
+                  <FormControlLabel
+                    value="student"
+                    control={<Radio />}
+                    label="Student"
+                  />
+                  <FormControlLabel
+                    value="professor"
+                    control={<Radio />}
+                    label="Professor"
+                  />
+                  <FormControlLabel
+                    value="ta"
+                    control={<Radio />}
+                    label="Teaching Assistant"
+                  />
+                </RadioGroup>
               </Grid>
             </Grid>
             <Button
