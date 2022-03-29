@@ -24,7 +24,6 @@ export default function SignUp(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    props.handleClose();
     console.log(process.env.REACT_APP_API_URL);
     const data = new FormData(event.currentTarget);
 
@@ -43,10 +42,11 @@ export default function SignUp(props) {
           },
         }
       )
-      .then( (response) => {
+      .then((response) => {
         console.log("response", response);
         if (response.status === 200) {
           props.handleSuccess(true);
+          props.handleClose();
         }
       })
       .catch((error) => {

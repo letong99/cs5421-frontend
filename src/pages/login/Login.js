@@ -19,6 +19,7 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "../../components/Alert";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { useCurrentUser } from "../../components/CurrentUserContext";
 
 function Copyright(props) {
   return (
@@ -42,11 +43,13 @@ const theme = createTheme();
 
 export default function Login() {
   let history = useHistory();
+  const { pushCurrentUser } = useCurrentUser();
 
   const [showSignupDialog, setShowSignupDialog] = React.useState(false);
   const [displaySuccess, setDisplaySuccess] = useState(false);
   const [displayError, setDisplayError] = useState(false);
-  const [errorMsg, setErrorMsg] = useState([]);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [validation, setValidation] = useState([]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -65,6 +68,7 @@ export default function Login() {
         }
       )
       .then((res) => {
+        pushCurrentUser(res.data.id, res.data.role);
         history.push(`/challenges`);
       })
       .catch((res) => {
@@ -81,8 +85,9 @@ export default function Login() {
   };
 
   const handleError = (error) => {
-    console.log(error.response.data.message);
+    console.log(error.response);
     setErrorMsg(error.response.data.message);
+    setValidation(error.response.data.validation ? error.response.data.validation : [])
     setDisplayError(true);
   };
 
@@ -148,10 +153,6 @@ export default function Login() {
                 id="password"
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
               <Button
                 type="submit"
                 fullWidth
@@ -161,11 +162,6 @@ export default function Login() {
                 Sign In
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
                 <Grid item>
                   <Link href="#" variant="body2" onClick={onClickSignUp}>
                     {"Don't have an account? Sign Up"}
@@ -193,7 +189,7 @@ export default function Login() {
       </Snackbar>
       <Snackbar
         open={displayError}
-        autoHideDuration={2000}
+        autoHideDuration={6000}
         onClose={() => setDisplayError(false)}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
@@ -202,10 +198,10 @@ export default function Login() {
           severity="error"
           sx={{ width: "100%" }}
         >
-          Error.{" "}
-          {Object.keys(errorMsg).map((keyName, msgs) => (
+          Error. {errorMsg}
+          {Object.keys(validation).map((keyName, msgs) => (
             <Box key={keyName}>
-              {errorMsg[keyName].map((msg) => (
+              {validation[keyName].map((msg) => (
                 <Box>
                   {keyName}: {msg}
                 </Box>
