@@ -24,20 +24,20 @@ import { visuallyHidden } from "@mui/utils";
 import LeaderBoardRow from "./LeaderBoardRow";
 
 function createData(
-  challengeName,
-  userId,
+  rank,
+  userName,
   avgTime,
   submissionTs,
   totalAttemps,
-  price
+  status
 ) {
   return {
-    challengeName,
-    userId,
+    rank,
+    userName,
     avgTime,
     submissionTs,
     totalAttemps,
-    price,
+    status,
     history: [
       {
         date: "2020-01-05",
@@ -101,16 +101,16 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "challengeName",
+    id: "rank",
     numeric: false,
     disablePadding: true,
-    label: "Challenge Name",
+    label: "Rank",
   },
   {
-    id: "userId",
+    id: "userName",
     numeric: true,
     disablePadding: false,
-    label: "User ID",
+    label: "User Name",
   },
   {
     id: "avgTime",
@@ -122,13 +122,13 @@ const headCells = [
     id: "submissionTs",
     numeric: true,
     disablePadding: false,
-    label: "Submission Time Stemp",
+    label: "Submission Time Stamp",
   },
   {
-    id: "totalAttemps",
+    id: "status",
     numeric: true,
     disablePadding: false,
-    label: "Protein (g)",
+    label: "Status",
   },
 ];
 
@@ -223,7 +223,7 @@ EnhancedTableToolbar.propTypes = {
 
 export default function LeaderBoard() {
   const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("challengeName");
+  const [orderBy, setOrderBy] = React.useState("rank");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);

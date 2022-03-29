@@ -19,7 +19,7 @@ import TrophyIcon from "@mui/icons-material/EmojiEvents";
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link, NavLink, withRouter } from "react-router-dom";
 import {Button} from "@mui/material"
-
+import { useCurrentUser } from "./CurrentUserContext";
 import { styled, useTheme } from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -76,6 +76,8 @@ const AppBar = styled(MuiAppBar, {
 
 export default function NavigatorBar(props) {
     const { component, ...other } = props;
+    const { popCurrentUser } = useCurrentUser();
+
   
     const isSmUp = useMediaQuery(theme.breakpoints.up("sm"));
 
@@ -128,7 +130,10 @@ export default function NavigatorBar(props) {
           ))}
         </List>
         <List style={{marginTop:'auto', textAlign:'center', paddingBottom:"30px"}}>
-          <Button variant = "contained" component = {Link} to="/">
+          <Button variant = "contained" component = {Link} to="/login" onClick={()=>{
+            console.log("logout")
+            popCurrentUser();
+          }}>
               Logout
           </Button>
         </List>

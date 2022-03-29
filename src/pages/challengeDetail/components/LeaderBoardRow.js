@@ -13,68 +13,58 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Button from "@mui/material/Button";
 
 export default function LeaderBoardRow(props) {
-  const { row } = props;
+  const { row, displayCode } = props;
   const [open, setOpen] = React.useState(false);
 
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
+          {displayCode ? (
+            <IconButton
+              aria-label="expand row"
+              size="small"
+              onClick={() => setOpen(!open)}
+            >
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          ) : (
+            <div></div>
+          )}
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.challengeName}
+          {row.rank}
         </TableCell>
-        <TableCell align="right">{row.userId}</TableCell>
+        <TableCell align="right">{row.userName}</TableCell>
         <TableCell align="right">{row.avgTime}</TableCell>
         <TableCell align="right">{row.submissionTs}</TableCell>
-        <TableCell align="right">{row.totalAttempts}</TableCell>
+        <TableCell align="right">{row.status}</TableCell>
       </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Query Submitted
-              </Typography>
-              <CopyBlock
-                text={`SELECT * FROM db;`}
-                language={"sql"}
-                //   showLineNumbers={showLineNumbers}
-                //   startingLineNumber={startingLineNumber}
-                theme={dracula}
-              />
-            </Box>
-            <Box>
+      {displayCode ? (
+        <TableRow>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box sx={{ margin: 1 }}>
+                <Typography variant="h6" gutterBottom component="div">
+                  Query Submitted
+                </Typography>
+                <CopyBlock
+                  text={`SELECT * FROM db;`}
+                  language={"sql"}
+                  //   showLineNumbers={showLineNumbers}
+                  //   startingLineNumber={startingLineNumber}
+                  theme={dracula}
+                />
+              </Box>
+              <Box>
                 <Button>Delete</Button>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
+              </Box>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      ) : (
+        <div></div>
+      )}
     </React.Fragment>
   );
 }
-
-//   LeaderBoardRow.propTypes = {
-//     row: PropTypes.shape({
-//         challengeName: PropTypes.number.isRequired,
-//         userId: PropTypes.number.isRequired,
-//         avgTime: PropTypes.number.isRequired,
-//       history: PropTypes.arrayOf(
-//         PropTypes.shape({
-//           amount: PropTypes.number.isRequired,
-//           customerId: PropTypes.string.isRequired,
-//           date: PropTypes.string.isRequired,
-//         }),
-//       ).isRequired,
-//       submissionTs: PropTypes.string.isRequired,
-//       totalAttemps: PropTypes.number.isRequired,
-//       protein: PropTypes.number.isRequired,
-//     }).isRequired,
-//   };

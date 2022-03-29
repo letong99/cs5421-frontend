@@ -9,7 +9,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import Container from "@mui/material/Container";
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 import Leaderboard from "./components/LeaderBoard";
 import FloatButton from "../../components/FloatButton";
 import Divider from "@mui/material/Divider";
@@ -18,6 +18,7 @@ import Dialog from "@mui/material/Dialog";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "../../components/Alert";
 import ChallengeInfo from "../../components/ChallengeInfo";
+import { useCurrentUser } from "../../components/CurrentUserContext";
 
 function Copyright(props) {
   return (
@@ -69,6 +70,8 @@ const footers = [
 
 export default function ChallengeDetail(props) {
   const history = useHistory();
+  const id = useParams();
+  const { currentUser, currentUserRole } = useCurrentUser();
 
   let [challengeName, setChallengName] = useState("To Be fetched");
   let [records, setRecords] = useState();
@@ -81,13 +84,6 @@ export default function ChallengeDetail(props) {
   let [displayError, setDisplayError] = useState(false);
 
   const handleCloseNewAttempt = () => {
-    // TODO: API post
-    let result = "dffsd";
-    if (result === "SUCCESS") {
-      setDisplaySuccess(true);
-    } else if (result === "ERROR") {
-      setDisplayError(true);
-    }
     setDisplayNewAttemptDialogue(false);
   };
 
@@ -122,14 +118,14 @@ export default function ChallengeDetail(props) {
       {/* End hero unit */}
       <Container disableGutters component="main" sx={{ pt: 8, pb: 6 }}>
         {/* <Grid container spacing={5} > */}
-          <Grid item sx={{ pt: 2, pb: 2 }}>
-            <Typography variant="h6" color="text.primary">
-              <b>Challenge descriptions</b>
-            </Typography>
-          </Grid>
-          <Grid item sx={{ pt: 2, pb: 2 }}>
-            <ChallengeInfo />
-          </Grid>
+        <Grid item sx={{ pt: 2, pb: 2 }}>
+          <Typography variant="h6" color="text.primary">
+            <b>Challenge descriptions</b>
+          </Typography>
+        </Grid>
+        <Grid item sx={{ pt: 2, pb: 2 }}>
+          <ChallengeInfo />
+        </Grid>
         {/* </Grid> */}
       </Container>
       {/* Footer */}
@@ -174,6 +170,9 @@ export default function ChallengeDetail(props) {
         <NewAttempt
           handleClose={handleCloseNewAttempt}
           challengeName={challengeName}
+          challengeId={id.id}
+          user={currentUser}
+          handleSuccess={() => setDisplaySuccess(true)}
         />
       </Dialog>
       <Snackbar
@@ -187,7 +186,7 @@ export default function ChallengeDetail(props) {
           severity="success"
           sx={{ width: "100%" }}
         >
-          Attempt submitted successfully. Please wait check your results later.
+          Attempt submitted successfully. Please check your results later.
         </Alert>
       </Snackbar>
       <Snackbar

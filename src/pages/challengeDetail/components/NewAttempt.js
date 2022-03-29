@@ -10,31 +10,47 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "../../../components/Alert";
 import ChallengeInfo from "../../../components/ChallengeInfo";
+import axios from "axios";
 
 const theme = createTheme();
 
 export default function NewAttempt(props) {
   let [challengeName, setChallengeName] = useState(props.challengeName);
   let [codeStr, setCodeStr] = useState("");
-  let [comments, setComments] = useState("");
   let [displayError, setDisplayError] = useState(false);
+  let [errorMsg, setErrorMsg] = useState([]);
+
+  const handleError = (error) => {
+    console.log(error.response.data.message);
+    setErrorMsg(error.response.data.message);
+    setDisplayError(true);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (codeStr === "") {
-      setDisplayError(true);
-    } else {
-      const data = {
-        codeStr: codeStr,
-        comments: comments,
-        user: props.user,
-        timeStamp: new Date(),
-        challengeName: challengeName,
-      };
-      console.log(data);
-      props.handleClose();
-    }
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/attempts`,
+        {
+          query: codeStr,
+          user_id: props.user,
+          challenge_id: props.challengeId,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        props.handleSuccess();
+        props.handleClose();
+      })
+      .catch((res) => {
+        handleError(res);
+      });
   };
 
   return (
@@ -82,16 +98,6 @@ export default function NewAttempt(props) {
                   }}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  id="comment"
-                  label="Comments"
-                  name="comment"
-                  value={comments}
-                  onChange={(evn) => setComments(evn.target.value)}
-                />
-              </Grid>
             </Grid>
             <Button
               type="submit"
@@ -116,7 +122,7 @@ export default function NewAttempt(props) {
           severity="error"
           sx={{ width: "100%" }}
         >
-          Code is required. Please enter your code.
+          Error. {errorMsg}
         </Alert>
       </Snackbar>
     </ThemeProvider>

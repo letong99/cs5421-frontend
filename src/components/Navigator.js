@@ -9,9 +9,9 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import PeopleIcon from "@mui/icons-material/People";
 import TrophyIcon from "@mui/icons-material/EmojiEvents";
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from "@mui/icons-material/Menu";
 import { Link, NavLink, withRouter } from "react-router-dom";
-import {Button} from "@mui/material"
+import { Button } from "@mui/material";
 import { AlignHorizontalCenter } from "@mui/icons-material";
 import { textAlign } from "@mui/system";
 
@@ -55,8 +55,13 @@ export default function Navigator(props) {
     right: false,
   });
 
+  const handleLogout = () => {};
+
   const toggleDrawer = (anchor, open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
       return;
     }
 
@@ -65,12 +70,11 @@ export default function Navigator(props) {
 
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-
       <List disablePadding>
         <ListItem
           sx={{ ...item, ...itemCategory, fontSize: 22, color: "#fff" }}
@@ -83,7 +87,11 @@ export default function Navigator(props) {
               <ListItemText sx={{ color: "#fff" }}>{id}</ListItemText>
             </ListItem>
             {children.map(({ id: childId, icon, active, path }) => (
-              <NavLink to={path} style={{ textDecoration: "none" }} key={childId}>
+              <NavLink
+                to={path}
+                style={{ textDecoration: "none" }}
+                key={childId}
+              >
                 <ListItem disablePadding key={childId}>
                   <ListItemButton selected={active} sx={item}>
                     <ListItemIcon>{icon}</ListItemIcon>
@@ -96,15 +104,10 @@ export default function Navigator(props) {
           </Box>
         ))}
       </List>
-      <List style={{marginTop:'auto', textAlign:'center', paddingBottom:"30px"}}>
-        <Button variant = "contained" component = {Link} to="/">
-            Logout
-        </Button>
-      </List>
     </Box>
   );
-  
-  const anchor = 'left'
+
+  const anchor = "left";
 
   return (
     // <Drawer variant="permanent" {...other}>
@@ -112,7 +115,10 @@ export default function Navigator(props) {
     // </Drawer>
     <div>
       <React.Fragment>
-        <Button size = "large" onClick={toggleDrawer(anchor, true)}> <MenuIcon style={{fontSize: 40}} /> </Button>
+        <Button size="large" onClick={toggleDrawer(anchor, true)}>
+          {" "}
+          <MenuIcon style={{ fontSize: 40 }} />{" "}
+        </Button>
         <Drawer
           anchor={anchor}
           open={state[anchor]}
