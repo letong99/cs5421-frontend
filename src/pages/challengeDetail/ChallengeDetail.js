@@ -19,6 +19,8 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "../../components/Alert";
 import ChallengeInfo from "../../components/ChallengeInfo";
 import { useCurrentUser } from "../../components/CurrentUserContext";
+import axios from "axios";
+import Image from "../../assets/404.png";
 
 function Copyright(props) {
   return (
@@ -73,8 +75,13 @@ export default function ChallengeDetail(props) {
   const id = useParams();
   const { currentUser, currentUserRole } = useCurrentUser();
 
-  let [challengeName, setChallengName] = useState("To Be fetched");
+  let [challengeName, setChallengName] = useState("");
+  let [testCases, setTestCases] = useState([]);
+  let [description, setDescription] = useState("");
+  let [solution, setSolution] = useState("");
+  let [schema, setSchema] = useState("");
   let [records, setRecords] = useState();
+  let [expirationDate, setExpirationDate] = useState("");
   let [creator, setCreator] = useState("Remmy");
   let [createdDate, setCreatedDate] = useState("2022-10-01");
   let [displayNewAttemptDialogue, setDisplayNewAttemptDialogue] = useState(
@@ -82,6 +89,7 @@ export default function ChallengeDetail(props) {
   );
   let [displaySuccess, setDisplaySuccess] = useState(false);
   let [displayError, setDisplayError] = useState(false);
+  let [notFound, setNotFound] = useState(false);
 
   const handleCloseNewAttempt = () => {
     setDisplayNewAttemptDialogue(false);
@@ -94,9 +102,71 @@ export default function ChallengeDetail(props) {
 
   useEffect(() => {
     // fetch from APIs
-  });
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/challenges/${id.id}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setChallengName(res.response.data.name);
+        setTestCases(res.response.data.test_cases);
+        setDescription(res.response.data.description);
+        setSolution(res.response.data.solution);
+        setCreatedDate(res.response.data.created_at);
+        setSchema(res.response.data.init);
+        axios
+          .get(
+            `${process.env.REACT_APP_API_URL}/users/${res.response.data.created_user_id}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then((res) => {
+            setCreator(res.response.data.full_name);
+          })
+          .catch((res) => {
+            console.log(res);
+            // setNotFound(true);
+          });
+      })
+      .catch((res) => {
+        console.log(res);
+        // setNotFound(true);
+      });
+  }, []);
 
-  return (
+  return notFound ? (
+    <Grid
+      container
+      component="error_page"
+      sx={{
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "#f9fafb",
+      }}
+      justifyContent="space-around"
+      alignItems="center"
+    >
+      <Grid
+        item
+        xs={false}
+        md={8}
+        sx={{
+          backgroundImage: `url(${Image})`,
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundColor: "#ffffff",
+          width: "100vw",
+          height: "100vh",
+        }}
+      />
+    </Grid>
+  ) : (
     <div
       id="detail-content"
       style={{
@@ -124,7 +194,12 @@ export default function ChallengeDetail(props) {
           </Typography>
         </Grid>
         <Grid item sx={{ pt: 2, pb: 2 }}>
-          <ChallengeInfo />
+          <ChallengeInfo
+            testCases={testCases}
+            schema={schema}
+            expirationDate={expirationDate}
+            description={description}
+          />
         </Grid>
         {/* </Grid> */}
       </Container>

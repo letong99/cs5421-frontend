@@ -8,16 +8,12 @@ import { CopyBlock, dracula } from "react-code-blocks";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 
-export default function ChallengeInfo() {
+export default function ChallengeInfo(props) {
   const [expanded, setExpanded] = useState(false);
-  const [dbSchema, setDbSchema] = useState("SELECT * FROM db;");
-  const [testCases, setTestCases] = useState([
-    { id: "123", queries: "SELECT * FROM db;", visible: true },
-    { id: "456", queries: "SELECT * FROM db;" },
-  ]);
-  const [description, setDesciption] = useState(
-    "Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget maximus est, id dignissim quam."
-  );
+  const [testCases, setTestCases] = useState(props.testCases);
+  const [description, setDesciption] = useState(props.description);
+  const [expirationDate, setExpirationDate] = useState(props.expirationDate);
+  const [schema, setSchema] = useState(props.schema);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -60,9 +56,9 @@ export default function ChallengeInfo() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Donec placerat, lectus sed mattis semper, neque lectus feugiat
-            lectus, varius pulvinar diam eros in elit. Pellentesque convallis
-            laoreet laoreet.
+            {expirationDate &&
+              `The Challenge will end by ${expirationDate}. Please submit your
+            attempt before the deadline.`}
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -84,7 +80,7 @@ export default function ChallengeInfo() {
         </AccordionSummary>
         <AccordionDetails>
           <CopyBlock
-            text={`SELECT * FROM db;`}
+            text={schema}
             language={"sql"}
             //   showLineNumbers={showLineNumbers}
             //   startingLineNumber={startingLineNumber}
@@ -116,30 +112,34 @@ export default function ChallengeInfo() {
             sx={{ pt: 4, pb: 3 }}
           >
             <Grid container spacing={3} flexDirection="column">
-              {testCases.map((item) => {
-                return item.visible ? (
-                  <Grid
-                    key={item.id}
-                    container
-                    spacing={3}
-                    flexDirection="column"
-                  >
-                    <Grid item sx={{ pt: 2, pb: 2 }}>
-                      <Typography>Test Case {item.id}</Typography>
-                      <CopyBlock
-                        align="left"
-                        text={item.queries}
-                        language={"sql"}
-                        showLineNumbers={true}
-                        startingLineNumber={true}
-                        theme={dracula}
-                      />
+              {testCases && testCases.length > 0 ? (
+                testCases.map((item) => {
+                  return item.is_visible ? (
+                    <Grid
+                      key={item.id}
+                      container
+                      spacing={3}
+                      flexDirection="column"
+                    >
+                      <Grid item sx={{ pt: 2, pb: 2 }}>
+                        <Typography>Test Case {item.id}</Typography>
+                        <CopyBlock
+                          align="left"
+                          text={item.data}
+                          language={"sql"}
+                          showLineNumbers={true}
+                          startingLineNumber={true}
+                          theme={dracula}
+                        />
+                      </Grid>
                     </Grid>
-                  </Grid>
-                ) : (
-                  <div></div>
-                );
-              })}
+                  ) : (
+                    <div></div>
+                  );
+                })
+              ) : (
+                <Typography>No available test case.</Typography>
+              )}
             </Grid>
           </Container>
         </AccordionDetails>
