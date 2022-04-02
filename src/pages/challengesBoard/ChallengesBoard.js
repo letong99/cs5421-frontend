@@ -19,7 +19,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import FloatButton from "../../components/FloatButton"; // version 5.2.0
 import CreateChallenge from "./CreateChallenge";
-import NewAttempt from "../challengeDetail/components/NewAttempt";
+import { useCurrentUser } from "../../components/CurrentUserContext";
 import Dialog from "@mui/material/Dialog";
 import axios from "axios";
 import { useParams } from "react-router";
@@ -96,6 +96,7 @@ const tiers = [
 
 export default function ChallengesBoard() {
   let history = useHistory();
+  const { currentUser, currentUserRole } = useCurrentUser();
 
   const handleClick = (id) => {
     console.log(id);
@@ -293,7 +294,9 @@ export default function ChallengesBoard() {
             challengeName={challengeName}
           />
         </Dialog>
-        <FloatButton handleClick={handleClickNewAttempt} />
+        {(currentUserRole === "professor" || currentUserRole === "ta") && (
+          <FloatButton handleClick={handleClickNewAttempt} />
+        )}
       </Container>
     </React.Fragment>
   );
