@@ -19,9 +19,6 @@ const AppRouter = (props) => {
       <Route path="/challenges" >
           <NavigatorBar component={<ChallengesBoard />} />
       </Route>
-      <Route path="/create" >
-          <NavigatorBar component={<ChallengeCreate />} />
-      </Route>
       <Route path="/login" component={Login} />
     </Switch>
   );

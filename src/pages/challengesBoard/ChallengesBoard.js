@@ -21,6 +21,8 @@ import FloatButton from "../../components/FloatButton"; // version 5.2.0
 import CreateChallenge from "./CreateChallenge";
 import NewAttempt from "../challengeDetail/components/NewAttempt";
 import Dialog from "@mui/material/Dialog";
+import axios from "axios";
+import { useParams } from "react-router";
 
 const columnsPerRow = 4;
 
@@ -103,12 +105,56 @@ export default function ChallengesBoard() {
     let path = `/create`;
     history.push(path);
   };
-  let [challengeName, setChallengName] = useState("To Be fetched");
+  const id = useParams();
+  let [challengeName, setChallengName] = useState("");
   let [records, setRecords] = useState();
+  let [testCases, setTestCases] = useState([]);
+  let [description, setDescription] = useState("");
+  let [solution, setSolution] = useState("");
+  let [schema, setSchema] = useState("");
+  let [expirationDate, setExpirationDate] = useState("");
+  let [notFound, setNotFound] = useState(false);
+  let [createdDate, setCreatedDate] = useState("2022-10-01");
+  let [creator, setCreator] = useState("Remmy");
 
   useEffect(() => {
     // fetch from APIs
-  });
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/challenges/${id.id}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setChallengName(res.response.data.name);
+        setTestCases(res.response.data.test_cases);
+        setDescription(res.response.data.description);
+        setSolution(res.response.data.solution);
+        setCreatedDate(res.response.data.created_at);
+        setSchema(res.response.data.init);
+        axios
+          .get(
+            `${process.env.REACT_APP_API_URL}/users/${res.response.data.created_user_id}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then((res) => {
+            setCreator(res.response.data.full_name);
+          })
+          .catch((res) => {
+            console.log(res);
+            // setNotFound(true);
+          });
+      })
+      .catch((res) => {
+        console.log(res);
+        // setNotFound(true);
+      });
+  }, []);
   let [displayNewAttemptDialogue, setDisplayNewAttemptDialogue] = useState(
     false
   );
@@ -130,7 +176,34 @@ export default function ChallengesBoard() {
     setDisplayNewAttemptDialogue(true);
   };
 
-  return (
+  return notFound ? (
+    <Grid
+      container
+      component="error_page"
+      sx={{
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "#f9fafb",
+      }}
+      justifyContent="space-around"
+      alignItems="center"
+    >
+      <Grid
+        item
+        xs={false}
+        md={8}
+        sx={{
+          backgroundImage: `url(${Image})`,
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundColor: "#ffffff",
+          width: "100vw",
+          height: "100vh",
+        }}
+      />
+    </Grid>
+  ) : (
     <React.Fragment>
       <h1>Challenges Board</h1>{" "}
       {/* placeholder can delete this line after designing */}
