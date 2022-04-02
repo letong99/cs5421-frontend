@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Navigator from '../../components/Navigator.js';
 import Content from './ProfileContent.js';
 import { theme, drawerWidth } from '../../components/themes';
+import ChallengeTable from "./components/UserChallengeTable" ;
 
 
 
