@@ -3,7 +3,6 @@ import { Route, Switch } from "react-router-dom";
 import { ChallengeDetail } from "./pages";
 import ChallengesBoard from "./pages/challengesBoard/ChallengesBoard.js";
 import { Login } from "./pages";
-import ChallengeCreate from "./pages/challengeCreate/ChallengeCreate.js";
 import ProfileContent from "./pages/userProfile/ProfileContent";
 import NavigatorBar from "./components/NavigatorBar";
 
