@@ -87,6 +87,7 @@ export default function ChallengeDetail(props) {
   let [displayNewAttemptDialogue, setDisplayNewAttemptDialogue] = useState(
     false
   );
+  let [topAttempts, setTopAttempts] = useState([]);
   let [displaySuccess, setDisplaySuccess] = useState(false);
   let [displayError, setDisplayError] = useState(false);
   let [notFound, setNotFound] = useState(false);
@@ -102,6 +103,7 @@ export default function ChallengeDetail(props) {
 
   useEffect(() => {
     // fetch from APIs
+    console.log(currentUser, currentUserRole);
     axios
       .get(`${process.env.REACT_APP_API_URL}/challenges/${id.id}`, {
         headers: {
@@ -116,6 +118,7 @@ export default function ChallengeDetail(props) {
         setSolution(res.response.data.solution);
         setCreatedDate(res.response.data.created_at);
         setSchema(res.response.data.init);
+        setTopAttempts(res.response.data.top_attempts);
         axios
           .get(
             `${process.env.REACT_APP_API_URL}/users/${res.response.data.created_user_id}`,
@@ -183,7 +186,7 @@ export default function ChallengeDetail(props) {
         Created by {creator} at {createdDate}
       </Divider>
       <Container disableGutters component="main" sx={{ pt: 8, pb: 6 }}>
-        <Leaderboard />
+        <Leaderboard rows={topAttempts} />
       </Container>
       {/* End hero unit */}
       <Container disableGutters component="main" sx={{ pt: 8, pb: 6 }}>
@@ -278,7 +281,9 @@ export default function ChallengeDetail(props) {
           Error. Please try again later.
         </Alert>
       </Snackbar>
-      <FloatButton handleClick={handleClickNewAttempt} />
+      {currentUserRole === "student" && (
+        <FloatButton handleClick={handleClickNewAttempt} />
+      )}
     </div>
   );
 }
