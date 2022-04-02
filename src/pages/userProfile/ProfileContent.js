@@ -9,126 +9,78 @@ import TableRow from '@mui/material/TableRow';
 import Box from '@mui/material/Box';
 import './profile.css';
 import { useState, useEffect } from 'react';
-
-/* GET users/:user_id - Gets user by user ID {
-    "status": "success",
-    "data": {
-        "id": 3,
-        "email": "dexter@gmail.com",
-        "full_name": "Dexter",
-        "unsafe_password": "pass",
-        "created_at": "2022-03-17T08:13:54.982086Z"
-    }
-} */
-
-/*GET users/:user_id/attempts/attempt_id {
-    "status": "success",
-    "data": {
-        "id": 23,
-        "user_id": 3,
-        "challenge_id": 1,
-        "test_case_id": 2,
-        "query": "<SELECT ...>",
-        "execution_ms": 100,
-        "score": 100,
-        "created_at": "2022-03-17T08:02:28.411594Z",
-        "status": "COMPLETED"
-    }
-}*/
-const user = {
-    "id": 3,
-    "email": "dexter@gmail.com",
-    "full_name": "Dexter",
-    "unsafe_password": "pass",
-    "created_at": "2022-03-17T08:13:54.982086Z"
-}
-
-const userAttempt = [
-    {
-        "id": 23,
-        "user_id": 3,
-        "challenge_id": 1,
-        "test_case_id": 2,
-        "query": "<SELECT ...>",
-        "execution_ms": 100,
-        "score": 100,
-        "created_at": "2022-03-17T08:02:28.411594Z",
-        "status": "COMPLETED"
-    },
-    {
-        "id": 23,
-        "user_id": 3,
-        "challenge_id": 4,
-        "test_case_id": 2,
-        "query": "<SELECT ...>",
-        "execution_ms": 13,
-        "score": 45,
-        "created_at": "2022-03-15T08:02:28.411594Z",
-        "status": "COMPLETED"
-    },
-    {
-        "id": 23,
-        "user_id": 3,
-        "challenge_id": 2,
-        "test_case_id": 2,
-        "query": "<SELECT ...>",
-        "execution_ms": 34,
-        "score": 57,
-        "created_at": "2022-03-19T08:02:28.411594Z",
-        "status": "COMPLETED"
-    }
-]
-
-
+import ChallengeTable from "./components/UserChallengeTable" ;
+import Container from "@mui/material/Container";
+import { useCurrentUser } from "../../components/CurrentUserContext";
+import axios from "axios"
 
 export default function ProfileContent() {
 
-  let [challengeName, setChallengName] = useState("To Be fetched");
-  let [records, setRecords] = useState();
+  const { currentUser, currentUserRole } = useCurrentUser();
+
+  let [userEmail, setUserEmail] = useState("dexter@gmail.com");
+  let [userFullName, setUserFullName] = useState("Dexter");
 
   useEffect(() => {
     // fetch from APIs
-  });
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/users/${currentUser}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setUserEmail(res.response.data.email);
+        setUserFullName(res.response.data.full_name);
+        // axios
+        //   .get(
+        //     `${process.env.REACT_APP_API_URL}/users/${res.response.data.created_user_id}`,
+        //     {
+        //       headers: {
+        //         "Content-Type": "application/json",
+        //       },
+        //     }
+        //   )
+        //   .then((res) => {
+        //     setCreator(res.response.data.full_name);
+        //   })
+        //   .catch((res) => {
+        //     console.log(res);
+        //     // setNotFound(true);
+        //   });
+      })
+      .catch((res) => {
+        console.log(res);
+        // setNotFound(true);
+      });
+  }, []);
 
   return (
-    <div>
+    <div
+      id="user-content"
+      style={{
+        position: "relative",
+        justifyContent: "flex-start",
+        flexDirection: "column",
+        alignContent: "flex-start",
+      }}
+      maxWidth="md"
+      component="main"
+    >
         <h1>User Profile</h1>
         <img src={require("../../assets/panda.png")} width="80px" margin-bottom ="10px"/>
         <div className ='user-prop'>
             <Typography variant= "subtitle2" color = 'textSecondary'>USER NAME</Typography>
-            <p>{user.full_name}</p>
+            <p>{userFullName}</p>
         </div>
         <div className="user-prop">
             <Typography variant= "subtitle2" color = 'textSecondary'>E-MAIL</Typography>
-            <p>{user.email}</p>
+            <p>{userEmail}</p>
         </div>
-        <div className="user-prop">
-            <Paper>
-                <Box m={2} pt={2}>
-                    <Typography component = "h2" variant= "h6" color = 'primary' gutterBottom>Challenge Attempts</Typography>
-                </Box>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Date</TableCell>
-                            <TableCell>Challenge ID</TableCell>
-                            <TableCell>Query Execution Time (ms)</TableCell>
-                            <TableCell>Score</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {userAttempt.map((attempt) => (
-                            <TableRow key={attempt.id}>
-                                <TableCell>{attempt.created_at}</TableCell>
-                                <TableCell>{attempt.challenge_id}</TableCell>
-                                <TableCell>{attempt.execution_ms}</TableCell>
-                                <TableCell>{attempt.score}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </Paper>
-        </div>
+        <Container disableGutters component="main" sx={{ pt: 3, pb: 6 }}>
+            <ChallengeTable />
+        </Container>
     </div>
   );
 }
