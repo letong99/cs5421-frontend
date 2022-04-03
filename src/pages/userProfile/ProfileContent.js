@@ -20,6 +20,7 @@ export default function ProfileContent() {
 
   let [userEmail, setUserEmail] = useState("dexter@gmail.com");
   let [userFullName, setUserFullName] = useState("Dexter");
+  let [allAttempts, setAllAttempts] = useState([]);
 
   useEffect(() => {
     // fetch from APIs
@@ -33,22 +34,22 @@ export default function ProfileContent() {
         console.log(res);
         setUserEmail(res.response.data.email);
         setUserFullName(res.response.data.full_name);
-        // axios
-        //   .get(
-        //     `${process.env.REACT_APP_API_URL}/users/${res.response.data.created_user_id}`,
-        //     {
-        //       headers: {
-        //         "Content-Type": "application/json",
-        //       },
-        //     }
-        //   )
-        //   .then((res) => {
-        //     setCreator(res.response.data.full_name);
-        //   })
-        //   .catch((res) => {
-        //     console.log(res);
-        //     // setNotFound(true);
-        //   });
+        axios
+          .get(
+            `${process.env.REACT_APP_API_URL}/users/${currentUser}/attempts`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then((res) => {
+            setAllAttempts(res.response.data);
+          })
+          .catch((res) => {
+            console.log(res);
+            // setNotFound(true);
+          });
       })
       .catch((res) => {
         console.log(res);
@@ -79,7 +80,7 @@ export default function ProfileContent() {
             <p>{userEmail}</p>
         </div>
         <Container disableGutters component="main" sx={{ pt: 3, pb: 6 }}>
-            <ChallengeTable />
+            <ChallengeTable rows={allAttempts}/>
         </Container>
     </div>
   );
