@@ -14,6 +14,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "./Alert";
+import axios from "axios";
 
 export default function ChallengeInfoEditable(props) {
   let [expanded, setExpanded] = useState(false);
@@ -34,6 +35,32 @@ export default function ChallengeInfoEditable(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const data1 = {
+      user_id: props.user,
+      name: name,
+      description: description,
+      expires_at: dataEnd,
+      solution: solution,
+      test_cases: codeStr,
+    };
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/challenges`,
+        data1,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        props.handleSuccess();
+        props.handleClose();
+      })
+      .catch((res) => {
+        // handleError(res);
+      });
 
     if (codeStr === "") {
       setDisplayError(true);
