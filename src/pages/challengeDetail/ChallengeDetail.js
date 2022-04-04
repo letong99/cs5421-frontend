@@ -82,12 +82,13 @@ export default function ChallengeDetail(props) {
   let [schema, setSchema] = useState("");
   let [records, setRecords] = useState();
   let [expirationDate, setExpirationDate] = useState("");
-  let [creator, setCreator] = useState("Remmy");
-  let [createdDate, setCreatedDate] = useState("2022-10-01");
+  let [creator, setCreator] = useState("");
+  let [createdDate, setCreatedDate] = useState("");
   let [displayNewAttemptDialogue, setDisplayNewAttemptDialogue] = useState(
     false
   );
   let [topAttempts, setTopAttempts] = useState([]);
+  let [challengeType, setChallengeType] = useState('');
   let [displaySuccess, setDisplaySuccess] = useState(false);
   let [displayError, setDisplayError] = useState(false);
   let [notFound, setNotFound] = useState(false);
@@ -97,7 +98,6 @@ export default function ChallengeDetail(props) {
   };
 
   const handleClickNewAttempt = () => {
-    console.log("click");
     setDisplayNewAttemptDialogue(true);
   };
 
@@ -120,6 +120,7 @@ export default function ChallengeDetail(props) {
         setSchema(res.data.data.init);
         setTopAttempts(res.data.data.top_attempts);
         setExpirationDate(res.data.data.expires_at);
+        setChallengeType(res.data.data.type);
         axios
           .get(
             `${process.env.REACT_APP_API_URL}/users/${res.response.data.created_user_id}`,
@@ -203,6 +204,7 @@ export default function ChallengeDetail(props) {
             schema={schema}
             expirationDate={expirationDate}
             description={description}
+            type={challengeType}
           />
         </Grid>
         {/* </Grid> */}
@@ -252,6 +254,11 @@ export default function ChallengeDetail(props) {
           challengeId={id.id}
           user={currentUser}
           handleSuccess={() => setDisplaySuccess(true)}
+          testCases={testCases}
+          schema={schema}
+          expirationDate={expirationDate}
+          description={description}
+          type={challengeType}
         />
       </Dialog>
       <Snackbar

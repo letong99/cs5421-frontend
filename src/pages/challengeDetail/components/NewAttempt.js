@@ -15,6 +15,8 @@ import axios from "axios";
 const theme = createTheme();
 
 export default function NewAttempt(props) {
+  const { description, testCases, expirationDate, schema, type } = props;
+
   let [challengeName, setChallengeName] = useState(props.challengeName);
   let [codeStr, setCodeStr] = useState("");
   let [displayError, setDisplayError] = useState(false);
@@ -78,7 +80,13 @@ export default function NewAttempt(props) {
                 <Typography component="h5">Challenge descriptions: </Typography>
               </Grid>
               <Grid item xs={12}>
-                <ChallengeInfo />
+                <ChallengeInfo
+                  testCases={testCases}
+                  schema={schema}
+                  expirationDate={expirationDate}
+                  description={description}
+                  type={type}
+                />
               </Grid>
               <Grid item xs={12}>
                 <Typography component="h5">Enter Your Code Below:</Typography>
