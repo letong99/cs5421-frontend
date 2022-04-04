@@ -119,37 +119,23 @@ export default function ChallengesBoard() {
   let [createdDate, setCreatedDate] = useState("2022-10-01");
   let [creator, setCreator] = useState("Remmy");
   let [allRecords, setAllRecords] = useState();
+  let[data,setData] = useState([]);
+  // let data = { }
+
 
   useEffect(() => {
     // fetch from APIs
     axios
-      .get(`${process.env.REACT_APP_API_URL}/challenges/`, {
+      .get(`${process.env.REACT_APP_API_URL}/challenges`, {
         headers: {
           "Content-Type": "application/json",
         },
       })
       .then((res) => {
         console.log(res);
-        setChallengName(res.response.data.name);
-        setDescription(res.response.data.description);
-        setCreatedDate(res.response.data.created_at);
-        setSchema(res.response.data.init);
-        axios
-          .get(
-            `${process.env.REACT_APP_API_URL}/users/${res.response.data.created_user_id}`,
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          )
-          .then((res) => {
-            setCreator(res.response.data.full_name);
-          })
-          .catch((res) => {
-            console.log(res);
-            // setNotFound(true);
-          });
+        // const data = res.response.data;
+        setData(res.data.data);
+        console.log(data);
       })
       .catch((res) => {
         console.log(res);
@@ -218,12 +204,12 @@ export default function ChallengesBoard() {
       </div>
       <Container maxWidth="md" component="main">
         <Grid container spacing={3} alignItems="flex-end">
-          {tiers.map((tier) => (
+          {data.map((tier) => (
             // Enterprise card is full width at sm breakpoint
             <Grid item key={tier.id} xs={12} md={4}>
               <Card>
                 <CardHeader
-                  title={challengeName}
+                  title={tier.name}
                   titleTypographyProps={{ align: "center" }}
                   subheaderTypographyProps={{
                     align: "center",
@@ -250,29 +236,38 @@ export default function ChallengesBoard() {
                       color="text.primary"
                       align="center"
                     >
-                      Created by {creator} at {createdDate}
+                      Expires at {tier.expires_at}
                     </Typography>
                   </Box>
                   <ul>
-                    {description.map((line) => (
-                      <Typography
-                        // component="li"
-                        variant="subtitle1"
-                        align="left"
-                        key={line}
-                      >
-                        {line}
-                      </Typography>
-                    ))}
+                    <Typography
+                      component="h5"
+                      variant="h6"
+                      color="text.primary"
+                      align="center"
+                    >
+                      tier.description
+                    </Typography>
+
+                    {/*{tier.description.map((line) => (*/}
+                    {/*  <Typography*/}
+                    {/*    // component="li"*/}
+                    {/*    variant="subtitle1"*/}
+                    {/*    align="left"*/}
+                    {/*    key={line}*/}
+                    {/*  >*/}
+                    {/*    {line}*/}
+                    {/*  </Typography>*/}
+                    {/*))}*/}
                   </ul>
                 </CardContent>
                 <CardActions>
                   <Button
                     fullWidth
-                    variant={tier.buttonVariant}
-                    onClick={() => handleClick(tier.id)}
+                    variant="outlined"
+                    onClick={() => handleClick(tier.challenge_id)}
                   >
-                    {tier.buttonText}
+                    Participate
                   </Button>
                 </CardActions>
               </Card>
@@ -293,9 +288,9 @@ export default function ChallengesBoard() {
             challengeName={challengeName}
           />
         </Dialog>
-        {(currentUserRole === "professor" || currentUserRole === "ta") && (
+        {/*{(currentUserRole === "professor" || currentUserRole === "ta") && (*/}
           <FloatButton handleClick={handleClickNewAttempt} />
-        )}
+
       </Container>
     </React.Fragment>
   );
