@@ -16,7 +16,7 @@ const theme = createTheme();
 export default function CreateChallenge(props) {
   let [challengeName, setChallengeName] = useState(props.challengeName);
   let [codeStr, setCodeStr] = useState("");
-  let [comments, setComments] = useState("");
+  let [setCases, setTestCases] = useState("");
   let [displayError, setDisplayError] = useState(false);
 
   const handleSubmit = (e) => {
@@ -26,11 +26,11 @@ export default function CreateChallenge(props) {
       setDisplayError(true);
     } else {
       const data = {
-        codeStr: codeStr,
-        comments: comments,
-        user: props.user,
-        timeStamp: new Date(),
-        challengeName: challengeName,
+        // codeStr: codeStr,
+        // comments: comments,
+        // user: props.user,
+        // timeStamp: new Date(),
+        // challengeName: challengeName,
       };
       console.log(data);
       props.handleClose();
@@ -62,18 +62,12 @@ export default function CreateChallenge(props) {
                 <Typography component="h5">Challenge descriptions: </Typography>
               </Grid>
               <Grid item xs={12}>
-                <ChallengeInfoEditable />
+                <ChallengeInfoEditable
+                  setCodeStr={setCodeStr}
+                  setTestCases={setTestCases}
+                />
               </Grid>
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={handleSubmit}
-            >
-              Submit
-            </Button>
           </Box>
         </Box>
       </Container>
