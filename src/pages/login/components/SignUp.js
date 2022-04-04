@@ -127,14 +127,9 @@ export default function SignUp(props) {
                     label="Student"
                   />
                   <FormControlLabel
-                    value="professor"
+                    value="prof"
                     control={<Radio />}
                     label="Professor"
-                  />
-                  <FormControlLabel
-                    value="ta"
-                    control={<Radio />}
-                    label="Teaching Assistant"
                   />
                 </RadioGroup>
               </Grid>
