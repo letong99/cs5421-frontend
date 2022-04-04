@@ -103,7 +103,7 @@ export default function ChallengeDetail(props) {
 
   useEffect(() => {
     // fetch from APIs
-    console.log(currentUser, currentUserRole);
+    console.log(currentUser, currentUserRole, id);
     axios
       .get(`${process.env.REACT_APP_API_URL}/challenges/${id.id}`, {
         headers: {
@@ -112,13 +112,14 @@ export default function ChallengeDetail(props) {
       })
       .then((res) => {
         console.log(res);
-        setChallengName(res.response.data.name);
-        setTestCases(res.response.data.test_cases);
-        setDescription(res.response.data.description);
-        setSolution(res.response.data.solution);
-        setCreatedDate(res.response.data.created_at);
-        setSchema(res.response.data.init);
-        setTopAttempts(res.response.data.top_attempts);
+        setChallengName(res.data.data.name);
+        setTestCases(res.data.data.test_cases);
+        setDescription(res.data.data.description);
+        setSolution(res.data.data.solution);
+        setCreatedDate(res.data.data.created_at);
+        setSchema(res.data.data.init);
+        setTopAttempts(res.data.data.top_attempts);
+        setExpirationDate(res.data.data.expires_at);
         axios
           .get(
             `${process.env.REACT_APP_API_URL}/users/${res.response.data.created_user_id}`,
@@ -183,7 +184,7 @@ export default function ChallengeDetail(props) {
     >
       <h1>{challengeName}</h1>
       <Divider>
-        Created by {creator} at {createdDate}
+        Created at {createdDate}
       </Divider>
       <Container disableGutters component="main" sx={{ pt: 8, pb: 6 }}>
         <Leaderboard rows={topAttempts} />

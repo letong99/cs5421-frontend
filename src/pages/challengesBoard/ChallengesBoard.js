@@ -265,7 +265,7 @@ export default function ChallengesBoard() {
                   <Button
                     fullWidth
                     variant="outlined"
-                    onClick={() => handleClick(tier.challenge_id)}
+                    onClick={() => handleClick(tier.id)}
                   >
                     Participate
                   </Button>

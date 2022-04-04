@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -9,11 +9,8 @@ import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 
 export default function ChallengeInfo(props) {
+  const { description, testCases, expirationDate, schema } = props;
   const [expanded, setExpanded] = useState(false);
-  const [testCases, setTestCases] = useState(props.testCases);
-  const [description, setDesciption] = useState(props.description);
-  const [expirationDate, setExpirationDate] = useState(props.expirationDate);
-  const [schema, setSchema] = useState(props.schema);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
