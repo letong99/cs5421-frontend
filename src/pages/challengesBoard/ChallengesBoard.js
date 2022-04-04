@@ -23,6 +23,7 @@ import { useCurrentUser } from "../../components/CurrentUserContext";
 import Dialog from "@mui/material/Dialog";
 import axios from "axios";
 import { useParams } from "react-router";
+import Divider from "@mui/material/Divider";
 
 const columnsPerRow = 4;
 
@@ -110,18 +111,19 @@ export default function ChallengesBoard() {
   let [challengeName, setChallengName] = useState("");
   let [records, setRecords] = useState();
   let [testCases, setTestCases] = useState([]);
-  let [description, setDescription] = useState("");
+  let [description, setDescription] = useState([""]);
   let [solution, setSolution] = useState("");
   let [schema, setSchema] = useState("");
   let [expirationDate, setExpirationDate] = useState("");
   let [notFound, setNotFound] = useState(false);
   let [createdDate, setCreatedDate] = useState("2022-10-01");
   let [creator, setCreator] = useState("Remmy");
+  let [allRecords, setAllRecords] = useState();
 
   useEffect(() => {
     // fetch from APIs
     axios
-      .get(`${process.env.REACT_APP_API_URL}/challenges/${id.id}`, {
+      .get(`${process.env.REACT_APP_API_URL}/challenges/`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -129,9 +131,7 @@ export default function ChallengesBoard() {
       .then((res) => {
         console.log(res);
         setChallengName(res.response.data.name);
-        setTestCases(res.response.data.test_cases);
         setDescription(res.response.data.description);
-        setSolution(res.response.data.solution);
         setCreatedDate(res.response.data.created_at);
         setSchema(res.response.data.init);
         axios
@@ -223,8 +223,7 @@ export default function ChallengesBoard() {
             <Grid item key={tier.id} xs={12} md={4}>
               <Card>
                 <CardHeader
-                  title={tier.title}
-                  subheader={tier.subheader}
+                  title={challengeName}
                   titleTypographyProps={{ align: "center" }}
                   subheaderTypographyProps={{
                     align: "center",
@@ -251,11 +250,11 @@ export default function ChallengesBoard() {
                       color="text.primary"
                       align="center"
                     >
-                      {tier.subtitle}
+                      Created by {creator} at {createdDate}
                     </Typography>
                   </Box>
                   <ul>
-                    {tier.description.map((line) => (
+                    {description.map((line) => (
                       <Typography
                         // component="li"
                         variant="subtitle1"
