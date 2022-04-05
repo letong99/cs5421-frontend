@@ -20,10 +20,12 @@ import FormLabel from "@mui/material/FormLabel";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
+import Checkbox from "@mui/material/Checkbox";
+import FormGroup from "@mui/material/FormGroup";
 
 export default function ChallengeInfoEditable(props) {
   let [expanded, setExpanded] = useState(false);
-  let [testCases, setTestCases] = useState([{data: ''}]);
+  let [testCases, setTestCases] = useState([{data: '', is_visible: true}]);
   let [queriesStr, setQueiresStr] = useState("");
   let [dataStart, setDataStart] = useState(null);
   let [dataEnd, setDataEnd] = useState(null);
@@ -280,11 +282,22 @@ export default function ChallengeInfoEditable(props) {
                       "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
                   }}
                 />
+                {/*<Checkbox*/}
+                {/*  checked = {x.is_visible}*/}
+                {/*  onChange={e => handleInputChange(e, i)}*/}
+                {/*  inputProps={{ 'aria-label': 'controlled'}}*/}
+                {/*  />*/}
+                  <FormGroup
+                    checked = {x.is_visible}
+                    onChange={e => handleInputChange(e, i)}
+                  >
+                    <FormControlLabel control={ <Checkbox defaultChecked /> } label="Visible" />
+                  </FormGroup>
                 <div className="btn-box">
-                  {testCases.length !== 1 && <button
+                  {testCases.length !== 1 && <Button variant = 'outlined'
                     className="mr10"
-                    onClick={() => handleRemoveClick(i)}>Remove</button>}
-                  {testCases.length - 1 === i && <button onClick={handleAddClick}>Add</button>}
+                    onClick={() => handleRemoveClick(i)}>Remove</Button>}
+                  {testCases.length - 1 === i && <Button variant = 'outlined' onClick={handleAddClick}>Add</Button>}
                 </div>
               </div>
             );
