@@ -22,8 +22,11 @@ import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
+import { useCurrentUser } from "./CurrentUserContext";
 
 export default function ChallengeInfoEditable(props) {
+  const { currentUser, currentUserRole } = useCurrentUser();
+
   let [expanded, setExpanded] = useState(false);
   let [testCases, setTestCases] = useState([{ data: "", is_visible: true }]);
   let [queriesStr, setQueiresStr] = useState("");
@@ -69,7 +72,7 @@ export default function ChallengeInfoEditable(props) {
     e.preventDefault();
     const data1 = {
       // user_id: props.user,
-      user_id: 1,
+      user_id: currentUser,
       name: name,
       description: description,
       init: queriesStr,
@@ -98,7 +101,7 @@ export default function ChallengeInfoEditable(props) {
       setDisplayError(true);
     } else {
       const data1 = {
-        user_id: 1,
+        user_id: currentUser,
         name: name,
         description: description,
         init: queriesStr,
@@ -291,7 +294,7 @@ export default function ChallengeInfoEditable(props) {
                   onChange={(e) => handleInputChange(e, i, "is_visible")}
                 >
                   <FormControlLabel
-                    control={<Checkbox defaultChecked value={x.is_visible}/>}
+                    control={<Checkbox defaultChecked value={x.is_visible} />}
                     label="Visible for Students"
                   />
                 </FormGroup>
