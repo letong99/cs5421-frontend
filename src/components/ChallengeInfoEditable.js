@@ -99,9 +99,10 @@ export default function ChallengeInfoEditable(props) {
         // handleError(res);
       });
 
-    if (testCases === "") {
+    if (testCases === [] || solution === "" || queriesStr === ""){
       setDisplayError(true);
     } else {
+      setDisplaySuccess(true);
 
       const data1 = {
         user_id: currentUser,
