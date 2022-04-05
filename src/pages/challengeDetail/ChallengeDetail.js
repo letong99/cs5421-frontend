@@ -82,12 +82,13 @@ export default function ChallengeDetail(props) {
   let [schema, setSchema] = useState("");
   let [records, setRecords] = useState();
   let [expirationDate, setExpirationDate] = useState("");
-  let [creator, setCreator] = useState("Remmy");
-  let [createdDate, setCreatedDate] = useState("2022-10-01");
+  let [creator, setCreator] = useState("");
+  let [createdDate, setCreatedDate] = useState("");
   let [displayNewAttemptDialogue, setDisplayNewAttemptDialogue] = useState(
     false
   );
   let [topAttempts, setTopAttempts] = useState([]);
+  let [challengeType, setChallengeType] = useState('');
   let [displaySuccess, setDisplaySuccess] = useState(false);
   let [displayError, setDisplayError] = useState(false);
   let [notFound, setNotFound] = useState(false);
@@ -97,13 +98,12 @@ export default function ChallengeDetail(props) {
   };
 
   const handleClickNewAttempt = () => {
-    console.log("click");
     setDisplayNewAttemptDialogue(true);
   };
 
   useEffect(() => {
     // fetch from APIs
-    console.log(currentUser, currentUserRole);
+    console.log(currentUser, currentUserRole, id);
     axios
       .get(`${process.env.REACT_APP_API_URL}/challenges/${id.id}`, {
         headers: {
@@ -112,13 +112,15 @@ export default function ChallengeDetail(props) {
       })
       .then((res) => {
         console.log(res);
-        setChallengName(res.response.data.name);
-        setTestCases(res.response.data.test_cases);
-        setDescription(res.response.data.description);
-        setSolution(res.response.data.solution);
-        setCreatedDate(res.response.data.created_at);
-        setSchema(res.response.data.init);
-        setTopAttempts(res.response.data.top_attempts);
+        setChallengName(res.data.data.name);
+        setTestCases(res.data.data.test_cases);
+        setDescription(res.data.data.description);
+        setSolution(res.data.data.solution);
+        setCreatedDate(res.data.data.created_at);
+        setSchema(res.data.data.init);
+        setTopAttempts(res.data.data.top_attempts);
+        setExpirationDate(res.data.data.expires_at);
+        setChallengeType(res.data.data.type);
         axios
           .get(
             `${process.env.REACT_APP_API_URL}/users/${res.response.data.created_user_id}`,
@@ -183,7 +185,7 @@ export default function ChallengeDetail(props) {
     >
       <h1>{challengeName}</h1>
       <Divider>
-        Created by {creator} at {createdDate}
+        Created at {createdDate}
       </Divider>
       <Container disableGutters component="main" sx={{ pt: 8, pb: 6 }}>
         <Leaderboard rows={topAttempts} />
@@ -202,6 +204,7 @@ export default function ChallengeDetail(props) {
             schema={schema}
             expirationDate={expirationDate}
             description={description}
+            type={challengeType}
           />
         </Grid>
         {/* </Grid> */}
@@ -251,6 +254,11 @@ export default function ChallengeDetail(props) {
           challengeId={id.id}
           user={currentUser}
           handleSuccess={() => setDisplaySuccess(true)}
+          testCases={testCases}
+          schema={schema}
+          expirationDate={expirationDate}
+          description={description}
+          type={challengeType}
         />
       </Dialog>
       <Snackbar

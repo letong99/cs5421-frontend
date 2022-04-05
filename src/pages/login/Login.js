@@ -68,7 +68,7 @@ export default function Login() {
         }
       )
       .then((res) => {
-        pushCurrentUser(res.data.id, res.data.role);
+        pushCurrentUser(res.data.data.id, res.data.data.role);
         history.push(`/challenges`);
       })
       .catch((res) => {

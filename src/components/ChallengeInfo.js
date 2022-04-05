@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -9,11 +9,8 @@ import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 
 export default function ChallengeInfo(props) {
+  const { description, testCases, expirationDate, schema, type } = props;
   const [expanded, setExpanded] = useState(false);
-  const [testCases, setTestCases] = useState(props.testCases);
-  const [description, setDesciption] = useState(props.description);
-  const [expirationDate, setExpirationDate] = useState(props.expirationDate);
-  const [schema, setSchema] = useState(props.schema);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -34,7 +31,7 @@ export default function ChallengeInfo(props) {
           <Typography sx={{ width: "33%", flexShrink: 0 }}>
             General Description
           </Typography>
-          <Typography sx={{ color: "text.secondary" }}>description</Typography>
+          <Typography sx={{ color: "text.secondary" }}>Descriptions</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>{description}</Typography>
@@ -52,7 +49,9 @@ export default function ChallengeInfo(props) {
           <Typography sx={{ width: "33%", flexShrink: 0 }}>
             Attempt Expiration Date
           </Typography>
-          <Typography sx={{ color: "text.secondary" }}>2022-06-01</Typography>
+          <Typography sx={{ color: "text.secondary" }}>
+            {expirationDate}
+          </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -65,6 +64,33 @@ export default function ChallengeInfo(props) {
       <Accordion
         expanded={expanded === "panel3"}
         onChange={handleChange("panel3")}
+        sx={{ width: "100%" }}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1bh-content"
+          id="panel1bh-header"
+        >
+          <Typography sx={{ width: "33%", flexShrink: 0 }}>
+            Challenge Type
+          </Typography>
+          <Typography sx={{ color: "text.secondary" }}>
+            Challenge for fastest or slowest attempt
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          {type === "FE" ? (
+            <Typography>
+              Submit your query with the shortest running time.
+            </Typography>
+          ) : (
+            <Typography>Submit your query with the longest running time.</Typography>
+          )}
+        </AccordionDetails>
+      </Accordion>
+      <Accordion
+        expanded={expanded === "panel4"}
+        onChange={handleChange("panel4")}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -75,7 +101,7 @@ export default function ChallengeInfo(props) {
             Database Schema
           </Typography>
           <Typography sx={{ color: "text.secondary" }}>
-            queries for setting up the challenge database
+            Queries for setting up the challenge database
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -93,8 +119,8 @@ export default function ChallengeInfo(props) {
         </AccordionDetails>
       </Accordion>
       <Accordion
-        expanded={expanded === "panel4"}
-        onChange={handleChange("panel4")}
+        expanded={expanded === "panel5"}
+        onChange={handleChange("panel5")}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
