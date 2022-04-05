@@ -178,6 +178,7 @@ export default function ChallengesBoard() {
                       variant="h7"
                       color="text.primary"
                       align="left"
+                      style={{ wordWrap: "break-word" }}
                     >
                       {tier.description}
                     </Typography>
