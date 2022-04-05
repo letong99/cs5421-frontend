@@ -25,7 +25,7 @@ import FormGroup from "@mui/material/FormGroup";
 
 export default function ChallengeInfoEditable(props) {
   let [expanded, setExpanded] = useState(false);
-  let [testCases, setTestCases] = useState([{data: '', is_visible: true}]);
+  let [testCases, setTestCases] = useState([{ data: "", is_visible: true }]);
   let [queriesStr, setQueiresStr] = useState("");
   let [dataStart, setDataStart] = useState(null);
   let [dataEnd, setDataEnd] = useState(null);
@@ -33,24 +33,28 @@ export default function ChallengeInfoEditable(props) {
   let [name, setName] = useState("");
   let [description, setDescription] = useState("");
   let [solution, setSolution] = useState("");
-  let [type,setType] = useState('');
+  let [type, setType] = useState("");
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
   const [myValue, setValue] = useState("");
-  console.log(myValue);
+  // console.log(myValue);
 
-
-  const handleInputChange = (e, index) => {
-    const { name, value } = e.target;
+  const handleInputChange = (e, index, type) => {
+    const { value } = e.target;
     const list = [...testCases];
-    list[index][name] = value;
+
+    if (type === "data") {
+      list[index].data = value;
+    } else if (type === "is_visible") {
+      list[index].is_visible = !list[index].is_visible;
+    }
     setTestCases(list);
   };
 
   // handle click event of the Remove button
-  const handleRemoveClick = index => {
+  const handleRemoveClick = (index) => {
     const list = [...testCases];
     list.splice(index, 1);
     setTestCases(list);
@@ -58,7 +62,7 @@ export default function ChallengeInfoEditable(props) {
 
   // handle click event of the Add button
   const handleAddClick = () => {
-    setTestCases([...testCases, { data: "" }]);
+    setTestCases([...testCases, { data: "", is_visible: true }]);
   };
 
   const handleSubmit = (e) => {
@@ -72,19 +76,15 @@ export default function ChallengeInfoEditable(props) {
       expires_at: dataEnd,
       solution: solution,
       test_cases: testCases,
-      times_to_run : 10,
+      times_to_run: 10,
       type: type,
     };
     axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/challenges`,
-        data1,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      .post(`${process.env.REACT_APP_API_URL}/challenges`, data1, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
         console.log(res);
         props.handleSuccess();
@@ -105,9 +105,8 @@ export default function ChallengeInfoEditable(props) {
         expires_at: dataEnd,
         solution: solution,
         test_cases: testCases,
-        times_to_run : 10,
-        type:type,
-
+        times_to_run: 10,
+        type: type,
       };
       // "description": "Some description", //Optional
       // "type": "FE", //or 'SE' representing fastest/slowest execution types
@@ -273,7 +272,7 @@ export default function ChallengeInfoEditable(props) {
                   value={x.data}
                   language="sql"
                   placeholder="Please enter your code here"
-                  onChange={e => handleInputChange(e, i)}
+                  onChange={(e) => handleInputChange(e, i, "data")}
                   padding={15}
                   style={{
                     fontSize: 12,
@@ -287,17 +286,30 @@ export default function ChallengeInfoEditable(props) {
                 {/*  onChange={e => handleInputChange(e, i)}*/}
                 {/*  inputProps={{ 'aria-label': 'controlled'}}*/}
                 {/*  />*/}
-                  <FormGroup
-                    checked = {x.is_visible}
-                    onChange={e => handleInputChange(e, i)}
-                  >
-                    <FormControlLabel control={ <Checkbox defaultChecked /> } label="Visible" />
-                  </FormGroup>
+                <FormGroup
+                  checked={x.is_visible}
+                  onChange={(e) => handleInputChange(e, i, "is_visible")}
+                >
+                  <FormControlLabel
+                    control={<Checkbox defaultChecked value={x.is_visible}/>}
+                    label="Visible for Students"
+                  />
+                </FormGroup>
                 <div className="btn-box">
-                  {testCases.length !== 1 && <Button variant = 'outlined'
-                    className="mr10"
-                    onClick={() => handleRemoveClick(i)}>Remove</Button>}
-                  {testCases.length - 1 === i && <Button variant = 'outlined' onClick={handleAddClick}>Add</Button>}
+                  {testCases.length !== 1 && (
+                    <Button
+                      variant="outlined"
+                      className="mr10"
+                      onClick={() => handleRemoveClick(i)}
+                    >
+                      Remove
+                    </Button>
+                  )}
+                  {testCases.length - 1 === i && (
+                    <Button variant="outlined" onClick={handleAddClick}>
+                      Add
+                    </Button>
+                  )}
                 </div>
               </div>
             );
@@ -331,23 +343,27 @@ export default function ChallengeInfoEditable(props) {
       </Accordion>
       <Accordion
         expanded={expanded === "panel6"}
-        onChange={handleChange("panel6")}>
-        <AccordionSummary  expandIcon={<ExpandMoreIcon />}
-                           aria-controls="panel6bh-content"
-                           id="panel6bh-header">
-          <Typography sx={{ width: "33%", flexShrink: 0 }}>
-            Type
+        onChange={handleChange("panel6")}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel6bh-content"
+          id="panel6bh-header"
+        >
+          <Typography sx={{ width: "33%", flexShrink: 0 }}>Type</Typography>
+          <Typography sx={{ color: "text.secondary" }}>
+            Fastest or slowest execution type
           </Typography>
-          <Typography sx={{ color: "text.secondary" }}>Fastest or slowest execution type</Typography>
-
         </AccordionSummary>
         <AccordionSummary>
           <FormControl>
-            <RadioGroup row
-                        value={type}
-                        onChange={(e) => setType(e.target.value)}>
-              <FormControlLabel value="FE" control = {<Radio />} label = "FE" />
-              <FormControlLabel value="SE" control = {<Radio />} label = "SE" />
+            <RadioGroup
+              row
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+            >
+              <FormControlLabel value="FE" control={<Radio />} label="FE" />
+              <FormControlLabel value="SE" control={<Radio />} label="SE" />
             </RadioGroup>
           </FormControl>
         </AccordionSummary>
