@@ -33,6 +33,7 @@ export default function ChallengeInfoEditable(props) {
   let [dataStart, setDataStart] = useState(null);
   let [dataEnd, setDataEnd] = useState(null);
   let [displayError, setDisplayError] = useState(false);
+  let [displaySuccess, setDisplaySuccess] = useState(false);
   let [name, setName] = useState("");
   let [description, setDescription] = useState("");
   let [solution, setSolution] = useState("");
@@ -90,6 +91,7 @@ export default function ChallengeInfoEditable(props) {
       })
       .then((res) => {
         console.log(res);
+        setDisplaySuccess(true);
         props.handleSuccess();
         props.handleClose();
       })
@@ -100,6 +102,7 @@ export default function ChallengeInfoEditable(props) {
     if (testCases === "") {
       setDisplayError(true);
     } else {
+
       const data1 = {
         user_id: currentUser,
         name: name,
@@ -380,6 +383,19 @@ export default function ChallengeInfoEditable(props) {
       >
         Submit
       </Button>
+      <Snackbar
+        open = {displaySuccess}
+        autoHideDuration={1000}
+        onClose={() => setDisplaySuccess(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        >
+        <Alert
+          onClose={() => setDisplaySuccess(false)}
+          severity="success"
+          sx={{ width: "100%" }}>
+          Success!
+        </Alert>
+      </Snackbar>
       <Snackbar
         open={displayError}
         autoHideDuration={2000}

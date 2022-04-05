@@ -23,77 +23,10 @@ import { useCurrentUser } from "../../components/CurrentUserContext";
 import Dialog from "@mui/material/Dialog";
 import axios from "axios";
 import { useParams } from "react-router";
+import { format } from 'date-fns';
 import Divider from "@mui/material/Divider";
 
 
-
-// const tiers = [
-//   {
-//     id: "1",
-//     title: "Challenge 1",
-//     subtitle: "Creator name",
-//     description: ["Some text with description"],
-//     buttonText: "Participate",
-//     buttonVariant: "outlined",
-//   },
-//   {
-//     id: "2",
-//     title: "Challenge 2",
-//     subtitle: "Creator name",
-//     description: ["Some text with description"],
-//     buttonText: "Participate",
-//     // buttonVariant: 'contained',
-//     buttonVariant: "outlined",
-//   },
-//   {
-//     id: "3",
-//     title: "Challenge 3",
-//     subtitle: "Creator name",
-//     description: ["Some text with description"],
-//     buttonText: "Participate",
-//     buttonVariant: "outlined",
-//   },
-//   {
-//     id: "4",
-//     title: "Challenge 3",
-//     subtitle: "Creator name",
-//     description: ["Some text with description"],
-//     buttonText: "Participate",
-//     buttonVariant: "outlined",
-//   },
-//   {
-//     id: "5",
-//     title: "Challenge 3",
-//     subtitle: "Creator name",
-//     description: ["Some text with description"],
-//     buttonText: "Participate",
-//     buttonVariant: "outlined",
-//   },
-//   {
-//     id: "6",
-//     title: "Challenge 3",
-//     subtitle: "Creator name",
-//     description: ["Some text with description"],
-//     buttonText: "Participate",
-//     buttonVariant: "outlined",
-//   },
-//   {
-//     id: "7",
-//     title: "Challenge 3",
-//     subtitle: "Creator name",
-//     description: ["Some text with description"],
-//     buttonText: "Participate",
-//     buttonVariant: "outlined",
-//   },
-//   {
-//     id: "8",
-//     title: "Challenge 3",
-//     subtitle: "Creator name",
-//     description: ["Some text with description"],
-//     buttonText: "Participate",
-//     buttonVariant: "outlined",
-//   },
-// ];
 
 export default function ChallengesBoard() {
   let history = useHistory();
