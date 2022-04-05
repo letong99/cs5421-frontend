@@ -33,12 +33,11 @@ export default function UserTableRow(props) {
           )}
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.submissionTs}
+          {row.created_at}
         </TableCell>
-        <TableCell align="left">{row.challengeName}</TableCell>
-        <TableCell align="right">{row.avgTime}</TableCell>
+        <TableCell align="left">{row.test_case_id}</TableCell>
+        <TableCell align="right">{row.execution_ms}</TableCell>
         <TableCell align="left">{row.status}</TableCell>
-        <TableCell align="right">{row.rank}</TableCell>
       </TableRow>
       {displayCode ? (
         <TableRow>
