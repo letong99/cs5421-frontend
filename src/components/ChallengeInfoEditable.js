@@ -96,6 +96,7 @@ export default function ChallengeInfoEditable(props) {
         props.handleClose();
       })
       .catch((res) => {
+        props.handleClose();
         // handleError(res);
       });
 

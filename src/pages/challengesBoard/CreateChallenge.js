@@ -51,24 +51,25 @@ export default function CreateChallenge(props) {
           <Typography component="h3" variant="h5">
             Create New Challenge
           </Typography>
-          <Box
+          {/* <Box
             component="form"
             noValidate
             onSubmit={handleSubmit}
             sx={{ mt: 3 }}
-          >
+          > */}
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography component="h5">Challenge descriptions: </Typography>
+                <Typography component="h5">Challenge information: </Typography>
               </Grid>
               <Grid item xs={12}>
                 <ChallengeInfoEditable
                   setCodeStr={setCodeStr}
                   setTestCases={setTestCases}
+                  handleClose={props.handleClose}
                 />
               </Grid>
             </Grid>
-          </Box>
+          {/* </Box> */}
         </Box>
       </Container>
       <Snackbar
