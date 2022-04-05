@@ -11,6 +11,7 @@ export const CurrentUserProvider = ({ children }) => {
   );
 
   const pushCurrentUser = (user_id, role) => {
+    console.log("login", user_id, role)
     setCurrentUser(user_id);
     setCurrentUserRole(role);
   };

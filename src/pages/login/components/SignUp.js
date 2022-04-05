@@ -120,14 +120,14 @@ export default function SignUp(props) {
               </Grid>
               <Grid item xs={12}>
                 <FormLabel id="role">Are you a...</FormLabel>
-                <RadioGroup defaultValue="student" name="role">
+                <RadioGroup defaultValue="STUD" name="role">
                   <FormControlLabel
-                    value="student"
+                    value="STUD"
                     control={<Radio />}
                     label="Student"
                   />
                   <FormControlLabel
-                    value="prof"
+                    value="PROF"
                     control={<Radio />}
                     label="Professor"
                   />

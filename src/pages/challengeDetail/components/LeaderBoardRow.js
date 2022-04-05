@@ -35,7 +35,7 @@ export default function LeaderBoardRow(props) {
 
 
   useEffect(() => {
-    if (currentUserRole === "ta" || currentUserRole === "professor") {
+    if (currentUserRole === "PROF") {
       setDisplayCode(true);
       setDisplayInvalidate(true);
     } else if (currentUserRole === row.userName) {
@@ -85,9 +85,9 @@ export default function LeaderBoardRow(props) {
         <TableCell component="th" scope="row">
           {row.rank}
         </TableCell>
-        <TableCell align="right">{row.userName}</TableCell>
-        <TableCell align="right">{row.avgTime}</TableCell>
-        <TableCell align="right">{row.submissionTs}</TableCell>
+        <TableCell align="right">{row.user_full_name}</TableCell>
+        <TableCell align="right">{row.completion_time_ms}</TableCell>
+        <TableCell align="right">{row.time_of_attempt}</TableCell>
         <TableCell align="right">{row.status}</TableCell>
       </TableRow>
       {displayCode ? (

@@ -289,7 +289,7 @@ export default function ChallengeDetail(props) {
           Error. Please try again later.
         </Alert>
       </Snackbar>
-      {currentUserRole === "student" && (
+      {currentUserRole === "STUD" && (
         <FloatButton handleClick={handleClickNewAttempt} />
       )}
     </div>

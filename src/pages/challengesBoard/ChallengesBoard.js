@@ -288,7 +288,7 @@ export default function ChallengesBoard() {
             challengeName={challengeName}
           />
         </Dialog>
-        {/*{(currentUserRole === "professor" || currentUserRole === "ta") && (*/}
+        {/*{(currentUserRole === "PROF") && (*/}
           <FloatButton handleClick={handleClickNewChallenge} />
 
       </Container>
