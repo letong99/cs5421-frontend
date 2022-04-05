@@ -23,6 +23,12 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import UserTableRow from "./UserTableRow";
 import Grid from "@mui/material/Grid";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+// import { makeStyles } from '@mui/styles';
+// import MUIDataTable from "mui-datatables";
 
 function createData(
   submissionTs,
@@ -52,20 +58,94 @@ function createData(
   };
 }
 
-const rows = [
-  createData("2022-03-17T08:03:28.411594Z", "Challenge 1", 31, "Success", 1),
-  createData("2022-02-16T08:01:28.411594Z", "Challenge 5", 100, "Pending", ""),
-  createData("2022-01-18T08:02:28.411594Z", "Challenge 2", 21, "Success", 3),
-  createData("2022-01-17T08:02:28.411594Z", "Challenge 3", 11, "Success", 4),
-  createData("2022-02-17T08:02:28.411594Z", "Challenge 1", 1, "Success", 5),
-  createData("2021-03-17T08:02:28.411594Z", "Challenge 3", 2, "Success", 1),
-  createData("2021-06-17T08:02:28.411594Z", "Challenge 4", 131, "Success", 21),
-  createData("2021-08-20T07:02:28.411594Z", "Challenge 2", 431, "Success", 18),
-  createData("2022-03-21T08:02:28.411594Z", "Challenge 1", 2331, "Success", 20),
-  createData("2022-03-01T06:02:28.411594Z", "Challenge 7", 131, "Success", 21),
-  createData("2021-03-06T08:02:28.411594Z", "Challenge 6", 32, "Success", 23),
-  createData("2022-02-08T08:02:28.411594Z", "Challenge 1", 68, "Success", 15),
-];
+// const rows = [
+//   createData("2022-03-17T08:03:28.411594Z", "Challenge 1", 31, "Success", 1),
+//   createData("2022-02-16T08:01:28.411594Z", "Challenge 5", 100, "Pending", ""),
+//   createData("2022-01-18T08:02:28.411594Z", "Challenge 2", 21, "Success", 3),
+//   createData("2022-01-17T08:02:28.411594Z", "Challenge 3", 11, "Success", 4),
+//   createData("2022-02-17T08:02:28.411594Z", "Challenge 1", 1, "Success", 5),
+//   createData("2021-03-17T08:02:28.411594Z", "Challenge 3", 2, "Success", 1),
+//   createData("2021-06-17T08:02:28.411594Z", "Challenge 4", 131, "Success", 21),
+//   createData("2021-08-20T07:02:28.411594Z", "Challenge 2", 431, "Success", 18),
+//   createData("2022-03-21T08:02:28.411594Z", "Challenge 1", 2331, "Success", 20),
+//   createData("2022-03-01T06:02:28.411594Z", "Challenge 7", 131, "Success", 21),
+//   createData("2021-03-06T08:02:28.411594Z", "Challenge 6", 32, "Success", 23),
+//   createData("2022-02-08T08:02:28.411594Z", "Challenge 1", 68, "Success", 15),
+// ];
+
+const rows = [{
+  "id":23,
+  "user_id":3,
+  "challenge_id":1,
+  "challenge_name": "Test Challenge",
+  "created_at": "2022-2",
+  "test_cases":[
+    {
+      "id":17,
+      "attempt_id":23,
+      "test_case_id":1,
+      "execution_ms": null,
+      "created_at": "2022-03",
+      "status":"PENDING"
+    },
+    {
+     "id":16,
+     "attempt_id":23,
+     "test_case_id":2,
+     "execution_ms": 0,
+     "created_at": "2022-02",
+     "status":"SUCCESS"
+   }
+  ]
+},{
+ "id":10,
+ "user_id":3,
+ "challenge_id":2,
+ "challenge_name": "Fabian Pascal",
+ "created_at": "2021-2",
+ "test_cases":[
+   {
+     "id":15,
+     "attempt_id":10,
+     "test_case_id":1,
+     "execution_ms": 3,
+     "created_at": "2021-03",
+     "status":"PENDING"
+   },
+   {
+    "id":14,
+    "attempt_id":10,
+    "test_case_id":2,
+    "execution_ms": 20,
+    "created_at": "2021-02",
+    "status":"SUCCESS"
+  }
+ ]
+},{
+ "id":2,
+ "user_id":3,
+ "challenge_id":3,
+ "challenge_name": "SQL Test Challenge",
+ "created_at": "2020-2",
+ "test_cases":[
+   {
+     "id":15,
+     "attempt_id":2,
+     "test_case_id":1,
+     "execution_ms": 3,
+     "created_at": "2021-03",
+     "status":"PENDING"
+   },
+   {
+    "id":14,
+    "attempt_id":2,
+    "test_case_id":2,
+    "execution_ms": 20,
+    "created_at": "2021-02",
+    "status":"SUCCESS"
+  }
+ ]
+},];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -105,10 +185,10 @@ const headCells = [
     label: "Date and Time Stamp",
   },
   {
-    id: "challengeName",
+    id: "test_case_id",
     numeric: false,
     disablePadding: false,
-    label: "Challenge Name",
+    label: "Test Case ID",
   },
   {
     id: "avgTime",
@@ -121,12 +201,6 @@ const headCells = [
     numeric: false,
     disablePadding: false,
     label: "Status",
-  },
-  {
-    id: "rank",
-    numeric: true,
-    disablePadding: false,
-    label: "Rank",
   },
 ];
 
@@ -146,8 +220,9 @@ function EnhancedTableHead(props) {
             align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
+            sx = {{fontWeight: 'bold'}}
           >
-            <TableSortLabel
+            <TableSortLabel 
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
@@ -220,7 +295,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function UserChallengeTable(props) {
-  const { rows } = props;
+  const { rows } = props; //####### uncomment this to use real data
   const [order, setOrder] = React.useState("desc");
   const [orderBy, setOrderBy] = React.useState("submissionTs");
   const [selected, setSelected] = React.useState([]);
@@ -278,100 +353,84 @@ export default function UserChallengeTable(props) {
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
         {rows !== null && rows.length !== 0 ? (
-          <div>
-            <EnhancedTableToolbar numSelected={selected.length} />
-            <TableContainer>
-              <Table
-                sx={{ minWidth: 750 }}
-                aria-labelledby="tableTitle"
-                size={"small"}
-              >
-                <EnhancedTableHead
-                  numSelected={selected.length}
-                  order={order}
-                  orderBy={orderBy}
-                  onRequestSort={handleRequestSort}
-                  rowCount={rows.length}
-                />
-                <TableBody>
-                  {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                    rows.slice().sort(getComparator(order, orderBy)) */}
-                  {stableSort(rows, getComparator(order, orderBy))
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row, index) => {
-                      const isItemSelected = isSelected(row.name);
-                      const labelId = `enhanced-table-checkbox-${index}`;
-
-                      return (
-                        <UserTableRow
-                          hover
-                          onClick={(event) => handleClick(event, row.name)}
-                          role="checkbox"
-                          aria-checked={isItemSelected}
-                          tabIndex={-1}
-                          key={row.name}
-                          selected={isItemSelected}
-                          row={row}
-                        >
-                          {/* <TableCell padding="checkbox">
-                            <Checkbox
-                              color="primary"
-                              checked={isItemSelected}
-                              inputProps={{
-                                'aria-labelledby': labelId,
-                              }}
-                            />
-                          </TableCell>
-                          <TableCell
-                            component="th"
-                            id={labelId}
-                            scope="row"
-                            padding="none"
-                          >
-                            {row.name}
-                          </TableCell>
-                          <TableCell align="right">{row.calories}</TableCell>
-                          <TableCell align="right">{row.fat}</TableCell>
-                          <TableCell align="right">{row.carbs}</TableCell>
-                          <TableCell align="right">{row.protein}</TableCell> */}
-                        </UserTableRow>
-                      );
-                    })}
-                  {/* {emptyRows > 0 && (
-                    <LeaderBoardRow
-                      style={{
-                        height: (dense ? 33 : 53) * emptyRows,
-                      }}
-                      row={[]}
+          <Table>
+            {rows.map((row) => (
+              <Accordion>
+                <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+                >
+                <Typography>Challenge {row.challenge_id}: {row.challenge_name} (Attempt {row.id})</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <div>
+                  {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
+                  <TableContainer>
+                    <Table
+                      sx={{ minWidth: 750 }}
+                      aria-labelledby="tableTitle"
+                      size={"small"}
                     >
-                      <TableCell colSpan={6} />
-                    </LeaderBoardRow>
-                  )} */}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />{" "}
-          </div>
+                      <EnhancedTableHead
+                        numSelected={selected.length}
+                        order={order}
+                        orderBy={orderBy}
+                        onRequestSort={handleRequestSort}
+                        rowCount={rows.length}
+                      />
+                      <TableBody>
+                        {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+                          rows.slice().sort(getComparator(order, orderBy)) */}
+                        {stableSort(row.test_cases, getComparator(order, orderBy))
+                          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                          .map((subrow, index) => {
+                            const isItemSelected = isSelected(subrow.name);
+                            const labelId = `enhanced-table-checkbox-${index}`;
+
+                            return (
+                              <UserTableRow
+                                hover
+                                onClick={(event) => handleClick(event, subrow.name)}
+                                role="checkbox"
+                                aria-checked={isItemSelected}
+                                tabIndex={-1}
+                                key={subrow.name}
+                                selected={isItemSelected}
+                                row={subrow}
+                              >
+                              </UserTableRow>
+                            );
+                          })}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  {/* <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component="div"
+                    count={row.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />{" "} */}
+                  </div>
+                </AccordionDetails>
+            </Accordion>
+            ))}
+          </Table>
         ) : ( 
           <Grid container spacing={2} direction="column" sx={{ margin: 2 }}>
-            <Grid item sx={{ margin: 1 }}>
+            {/* <Grid item sx={{ margin: 1 }}>
               <Typography
                 sx={{ flex: "1 1 100%" }}
-                variant="h6"
+                variant="subtitle"
                 id="tableTitle"
                 component="div"
               >
-                Leaderboard:{" "}
+                Attempts:{" "}
               </Typography>
-            </Grid>
+            </Grid> */}
             <Grid item sx={{ margin: 2 }}>
               <Typography>No records available at current stage.</Typography>
             </Grid>
