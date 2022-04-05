@@ -15,10 +15,15 @@ import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "./Alert";
 import axios from "axios";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import RadioGroup from "@mui/material/RadioGroup";
+import Radio from "@mui/material/Radio";
 
 export default function ChallengeInfoEditable(props) {
   let [expanded, setExpanded] = useState(false);
-  let [codeStr, setCodeStr] = useState("");
+  let [testCases, setTestCases] = useState([{data: ''}]);
   let [queriesStr, setQueiresStr] = useState("");
   let [dataStart, setDataStart] = useState(null);
   let [dataEnd, setDataEnd] = useState(null);
@@ -26,6 +31,7 @@ export default function ChallengeInfoEditable(props) {
   let [name, setName] = useState("");
   let [description, setDescription] = useState("");
   let [solution, setSolution] = useState("");
+  let [type,setType] = useState('');
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -33,15 +39,39 @@ export default function ChallengeInfoEditable(props) {
   const [myValue, setValue] = useState("");
   console.log(myValue);
 
+
+  const handleInputChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...testCases];
+    list[index][name] = value;
+    setTestCases(list);
+  };
+
+  // handle click event of the Remove button
+  const handleRemoveClick = index => {
+    const list = [...testCases];
+    list.splice(index, 1);
+    setTestCases(list);
+  };
+
+  // handle click event of the Add button
+  const handleAddClick = () => {
+    setTestCases([...testCases, { data: "" }]);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const data1 = {
-      user_id: props.user,
+      // user_id: props.user,
+      user_id: 1,
       name: name,
       description: description,
+      init: queriesStr,
       expires_at: dataEnd,
       solution: solution,
-      test_cases: codeStr,
+      test_cases: testCases,
+      times_to_run : 10,
+      type: type,
     };
     axios
       .post(
@@ -62,16 +92,20 @@ export default function ChallengeInfoEditable(props) {
         // handleError(res);
       });
 
-    if (codeStr === "") {
+    if (testCases === "") {
       setDisplayError(true);
     } else {
       const data1 = {
-        user_id: props.user,
+        user_id: 1,
         name: name,
         description: description,
+        init: queriesStr,
         expires_at: dataEnd,
         solution: solution,
-        test_cases: codeStr,
+        test_cases: testCases,
+        times_to_run : 10,
+        type:type,
+
       };
       // "description": "Some description", //Optional
       // "type": "FE", //or 'SE' representing fastest/slowest execution types
@@ -81,7 +115,8 @@ export default function ChallengeInfoEditable(props) {
       // "times_to_run": 10,
 
       console.log(data1);
-      props.handleClose();
+      // props.handleSuccess();
+      // props.handleClose();
     }
   };
 
@@ -137,6 +172,7 @@ export default function ChallengeInfoEditable(props) {
           />
         </AccordionDetails>
       </Accordion>
+
       <Accordion
         expanded={expanded === "panel2"}
         onChange={handleChange("panel2")}
@@ -155,14 +191,6 @@ export default function ChallengeInfoEditable(props) {
         </AccordionSummary>
         <AccordionDetails>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DatePicker
-              label="start of the challenge"
-              value={dataStart}
-              onChange={(newData) => {
-                setDataStart(newData);
-              }}
-              renderInput={(params) => <TextField {...params} />}
-            />
             <DatePicker
               label="end of the challenge"
               value={dataEnd}
@@ -218,19 +246,49 @@ export default function ChallengeInfoEditable(props) {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <CodeEditor
-            value={codeStr}
-            language="sql"
-            placeholder="Please enter your code here"
-            onChange={(evn) => setCodeStr([evn.target.value])}
-            padding={15}
-            style={{
-              fontSize: 12,
-              backgroundColor: "#f5f5f5",
-              fontFamily:
-                "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
-            }}
-          />
+          {/*<CodeEditor*/}
+          {/*  value={testCases}*/}
+          {/*  language="sql"*/}
+          {/*  placeholder="Please enter your code here"*/}
+          {/*  onChange={(evn) => setTestCases([evn.target.value])}*/}
+          {/*  padding={15}*/}
+          {/*  style={{*/}
+          {/*    fontSize: 12,*/}
+          {/*    backgroundColor: "#f5f5f5",*/}
+          {/*    fontFamily:*/}
+          {/*      "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",*/}
+          {/*  }}*/}
+          {/*/>*/}
+          {testCases.map((x, i) => {
+            return (
+              <div className="box">
+                {/*<input*/}
+                {/*  name="Data"*/}
+                {/*  value={x.data}*/}
+                {/*  onChange={e => handleInputChange(e, i)}*/}
+                {/*/>*/}
+                <CodeEditor
+                  value={x.data}
+                  language="sql"
+                  placeholder="Please enter your code here"
+                  onChange={e => handleInputChange(e, i)}
+                  padding={15}
+                  style={{
+                    fontSize: 12,
+                    backgroundColor: "#f5f5f5",
+                    fontFamily:
+                      "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
+                  }}
+                />
+                <div className="btn-box">
+                  {testCases.length !== 1 && <button
+                    className="mr10"
+                    onClick={() => handleRemoveClick(i)}>Remove</button>}
+                  {testCases.length - 1 === i && <button onClick={handleAddClick}>Add</button>}
+                </div>
+              </div>
+            );
+          })}
         </AccordionDetails>
       </Accordion>
       <Accordion
@@ -257,6 +315,29 @@ export default function ChallengeInfoEditable(props) {
             multiline
           />
         </AccordionDetails>
+      </Accordion>
+      <Accordion
+        expanded={expanded === "panel6"}
+        onChange={handleChange("panel6")}>
+        <AccordionSummary  expandIcon={<ExpandMoreIcon />}
+                           aria-controls="panel6bh-content"
+                           id="panel6bh-header">
+          <Typography sx={{ width: "33%", flexShrink: 0 }}>
+            Type
+          </Typography>
+          <Typography sx={{ color: "text.secondary" }}>Fastest or slowest execution type</Typography>
+
+        </AccordionSummary>
+        <AccordionSummary>
+          <FormControl>
+            <RadioGroup row
+                        value={type}
+                        onChange={(e) => setType(e.target.value)}>
+              <FormControlLabel value="FE" control = {<Radio />} label = "FE" />
+              <FormControlLabel value="SE" control = {<Radio />} label = "SE" />
+            </RadioGroup>
+          </FormControl>
+        </AccordionSummary>
       </Accordion>
       <Button
         type="submit"
