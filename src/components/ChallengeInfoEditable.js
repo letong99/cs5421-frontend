@@ -339,13 +339,18 @@ export default function ChallengeInfoEditable(props) {
           <Typography sx={{ color: "text.secondary" }}>solution</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <TextField
-            fullWidth
-            id="solution"
-            label="Sample Solution"
+          <CodeEditor
             value={solution}
-            onChange={(e) => setSolution(e.target.value)}
-            multiline
+            language="sql"
+            placeholder="Please enter your code here"
+            onChange={(evn) => setSolution(evn.target.value)}
+            padding={15}
+            style={{
+              fontSize: 12,
+              backgroundColor: "#f5f5f5",
+              fontFamily:
+                "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
+            }}
           />
         </AccordionDetails>
       </Accordion>
