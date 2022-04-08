@@ -125,12 +125,6 @@ const headCells = [
     disablePadding: false,
     label: "Submission Time Stamp",
   },
-  {
-    id: "status",
-    numeric: true,
-    disablePadding: false,
-    label: "Status",
-  },
 ];
 
 function EnhancedTableHead(props) {

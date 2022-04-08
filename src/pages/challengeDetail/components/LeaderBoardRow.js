@@ -86,9 +86,8 @@ export default function LeaderBoardRow(props) {
           {row.rank}
         </TableCell>
         <TableCell align="right">{row.user_full_name}</TableCell>
-        <TableCell align="right">{row.completion_time_ms}</TableCell>
+        <TableCell align="right">{row.average_execution_time}</TableCell>
         <TableCell align="right">{row.time_of_attempt}</TableCell>
-        <TableCell align="right">{row.status}</TableCell>
       </TableRow>
       {displayCode ? (
         <TableRow>

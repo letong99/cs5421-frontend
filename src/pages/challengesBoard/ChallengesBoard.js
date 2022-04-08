@@ -196,7 +196,7 @@ export default function ChallengesBoard() {
                     variant="outlined"
                     onClick={() => handleClick(tier.id)}
                   >
-                    Participate
+                    View
                   </Button>
                 </CardActions>
               </Card>
@@ -217,8 +217,9 @@ export default function ChallengesBoard() {
             challengeName={challengeName}
           />
         </Dialog>
-        {/*{(currentUserRole === "PROF") && (*/}
-        <FloatButton handleClick={handleClickNewChallenge} />
+        {currentUserRole === "PROF" && (
+          <FloatButton handleClick={handleClickNewChallenge} />
+        )}
       </Container>
       <Snackbar
         open={displaySuccess}
@@ -231,7 +232,7 @@ export default function ChallengesBoard() {
           severity="success"
           sx={{ width: "100%" }}
         >
-          Submission is successful. The result will be available shortly.
+          New Challenge is created successfully.
         </Alert>
       </Snackbar>
     </React.Fragment>

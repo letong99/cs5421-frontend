@@ -123,7 +123,7 @@ export default function ChallengeDetail(props) {
         setChallengeType(res.data.data.type);
         axios
           .get(
-            `${process.env.REACT_APP_API_URL}/users/${res.response.data.created_user_id}`,
+            `${process.env.REACT_APP_API_URL}/users/${res.data.data.created_user_id}`,
             {
               headers: {
                 "Content-Type": "application/json",
@@ -131,7 +131,7 @@ export default function ChallengeDetail(props) {
             }
           )
           .then((res) => {
-            setCreator(res.response.data.full_name);
+            setCreator(res.data.data.full_name);
           })
           .catch((res) => {
             console.log(res);
@@ -139,8 +139,8 @@ export default function ChallengeDetail(props) {
           });
       })
       .catch((res) => {
-        console.log(res);
-        // setNotFound(true);
+        // console.log(res);
+        setNotFound(true);
       });
   }, []);
 
@@ -185,7 +185,7 @@ export default function ChallengeDetail(props) {
     >
       <h1>{challengeName}</h1>
       <Divider>
-        Created at {createdDate}
+        Created at {createdDate} by {creator}
       </Divider>
       <Container disableGutters component="main" sx={{ pt: 8, pb: 6 }}>
         <Leaderboard rows={topAttempts} />
