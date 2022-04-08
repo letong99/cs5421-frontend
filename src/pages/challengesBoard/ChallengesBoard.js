@@ -23,10 +23,8 @@ import { useCurrentUser } from "../../components/CurrentUserContext";
 import Dialog from "@mui/material/Dialog";
 import axios from "axios";
 import { useParams } from "react-router";
-import { format } from 'date-fns';
-import Divider from "@mui/material/Divider";
-
-
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "../../components/Alert";
 
 export default function ChallengesBoard() {
   let history = useHistory();
@@ -52,9 +50,12 @@ export default function ChallengesBoard() {
   let [createdDate, setCreatedDate] = useState("2022-10-01");
   let [creator, setCreator] = useState("Remmy");
   let [allRecords, setAllRecords] = useState();
-  let[data,setData] = useState([]);
-  // let data = { }
-
+  let [data, setData] = useState([]);
+  let [refresh, setRefresh] = useState(false);
+  let [displayNewChallengeDialogue, setDisplayNewChallengeDialogue] = useState(
+    false
+  );
+  let [displaySuccess, setDisplaySuccess] = useState(false);
 
   useEffect(() => {
     // fetch from APIs
@@ -65,32 +66,44 @@ export default function ChallengesBoard() {
         },
       })
       .then((res) => {
-        console.log(res);
-        // const data = res.response.data;
+        // console.log(res);
         setData(res.data.data);
-        console.log(data);
+        // console.log(data);
       })
       .catch((res) => {
-        console.log(res);
-        // setNotFound(true);
+        // console.log(res);
+        setNotFound(true);
       });
   }, []);
-  let [displayNewChallengeDialogue, setDisplayNewChallengeDialogue] = useState(
-    false
-  );
-  let [displaySuccess, setDisplaySuccess] = useState(false);
-  let [displayError, setDisplayError] = useState(false);
+
+  useEffect(() => {
+    // fetch from APIs
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/challenges`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        // console.log(res);
+        // const data = res.response.data;
+        setData(res.data.data);
+        // console.log(data);
+      })
+      .catch((res) => {
+        // console.log(res);
+        setNotFound(true);
+      });
+  }, [refresh]);
+
   const handleCloseNewChallenge = () => {
-    // TODO: API post
-    let result = "dffsd";
-    if (result === "SUCCESS") {
-      setDisplaySuccess(true);
-    } else if (result === "ERROR") {
-      setDisplayError(true);
-    }
     setDisplayNewChallengeDialogue(false);
   };
-
+  const handleCloseAndRefresh = () => {
+    setDisplaySuccess(true);
+    setDisplayNewChallengeDialogue(false);
+    setRefresh(!refresh);
+  };
   const handleClickNewChallenge = () => {
     console.log("click");
     setDisplayNewChallengeDialogue(true);
@@ -127,14 +140,7 @@ export default function ChallengesBoard() {
     <React.Fragment>
       <h1>Challenges Board</h1>{" "}
       {/* placeholder can delete this line after designing */}
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        {/*<Button onClick={routeChange}*/}
-        {/*        color="primary"*/}
-        {/*        variant="outlined"*/}
-        {/*        >*/}
-        {/*  New challenge*/}
-        {/*</Button>*/}
-      </div>
+      <div style={{ display: "flex", justifyContent: "flex-end" }}></div>
       <Container maxWidth="md" component="main">
         <Grid container spacing={3} alignItems="flex-end">
           {data.map((tier) => (
@@ -182,17 +188,6 @@ export default function ChallengesBoard() {
                     >
                       {tier.description}
                     </Typography>
-
-                    {/*{tier.description.map((line) => (*/}
-                    {/*  <Typography*/}
-                    {/*    // component="li"*/}
-                    {/*    variant="subtitle1"*/}
-                    {/*    align="left"*/}
-                    {/*    key={line}*/}
-                    {/*  >*/}
-                    {/*    {line}*/}
-                    {/*  </Typography>*/}
-                    {/*))}*/}
                   </ul>
                 </CardContent>
                 <CardActions>
@@ -218,14 +213,27 @@ export default function ChallengesBoard() {
           PaperProps={{ sx: { width: "70%" } }}
         >
           <CreateChallenge
-            handleClose={handleCloseNewChallenge}
+            handleClose={handleCloseAndRefresh}
             challengeName={challengeName}
           />
         </Dialog>
         {/*{(currentUserRole === "PROF") && (*/}
-          <FloatButton handleClick={handleClickNewChallenge} />
-
+        <FloatButton handleClick={handleClickNewChallenge} />
       </Container>
+      <Snackbar
+        open={displaySuccess}
+        autoHideDuration={1000}
+        onClose={() => setDisplaySuccess(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={() => setDisplaySuccess(false)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Submission is successful. The result will be available shortly.
+        </Alert>
+      </Snackbar>
     </React.Fragment>
   );
 }

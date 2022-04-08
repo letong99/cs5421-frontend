@@ -42,8 +42,6 @@ export default function ChallengeInfoEditable(props) {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-  const [myValue, setValue] = useState("");
-  // console.log(myValue);
 
   const handleInputChange = (e, index, type) => {
     const { value } = e.target;
@@ -100,33 +98,27 @@ export default function ChallengeInfoEditable(props) {
         // handleError(res);
       });
 
-    if (testCases === [] || solution === "" || queriesStr === ""){
-      setDisplayError(true);
-    } else {
-      setDisplaySuccess(true);
+    // if (testCases === [] || solution === "" || queriesStr === "") {
+    //   setDisplayError(true);
+    // } else {
+    //   setDisplaySuccess(true);
 
-      const data1 = {
-        user_id: currentUser,
-        name: name,
-        description: description,
-        init: queriesStr,
-        expires_at: dataEnd,
-        solution: solution,
-        test_cases: testCases,
-        times_to_run: 10,
-        type: type,
-      };
-      // "description": "Some description", //Optional
-      // "type": "FE", //or 'SE' representing fastest/slowest execution types
-      // "init": "<CREATE DATABASE...>",
-      // "expires_at": "2022-06-01T12:00",
-      // "solution": "<SELECT ...>",
-      // "times_to_run": 10,
+      // const data1 = {
+      //   user_id: currentUser,
+      //   name: name,
+      //   description: description,
+      //   init: queriesStr,
+      //   expires_at: dataEnd,
+      //   solution: solution,
+      //   test_cases: testCases,
+      //   times_to_run: 10,
+      //   type: type,
+      // };
 
-      console.log(data1);
+      // console.log(data1);
       // props.handleSuccess();
       // props.handleClose();
-    }
+    // }
   };
 
   return (
@@ -339,13 +331,18 @@ export default function ChallengeInfoEditable(props) {
           <Typography sx={{ color: "text.secondary" }}>solution</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <TextField
-            fullWidth
-            id="solution"
-            label="Sample Solution"
+          <CodeEditor
             value={solution}
-            onChange={(e) => setSolution(e.target.value)}
-            multiline
+            language="sql"
+            placeholder="Please enter sample sulotion here"
+            onChange={(evn) => setSolution(evn.target.value)}
+            padding={15}
+            style={{
+              fontSize: 12,
+              backgroundColor: "#f5f5f5",
+              fontFamily:
+                "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
+            }}
           />
         </AccordionDetails>
       </Accordion>
@@ -370,8 +367,16 @@ export default function ChallengeInfoEditable(props) {
               value={type}
               onChange={(e) => setType(e.target.value)}
             >
-              <FormControlLabel value="FE" control={<Radio />} label="FE" />
-              <FormControlLabel value="SE" control={<Radio />} label="SE" />
+              <FormControlLabel
+                value="FE"
+                control={<Radio />}
+                label="Fastest First"
+              />
+              <FormControlLabel
+                value="SE"
+                control={<Radio />}
+                label="Slowest First"
+              />
             </RadioGroup>
           </FormControl>
         </AccordionSummary>
@@ -386,16 +391,17 @@ export default function ChallengeInfoEditable(props) {
         Submit
       </Button>
       <Snackbar
-        open = {displaySuccess}
+        open={displaySuccess}
         autoHideDuration={1000}
         onClose={() => setDisplaySuccess(false)}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        >
+      >
         <Alert
           onClose={() => setDisplaySuccess(false)}
           severity="success"
-          sx={{ width: "100%" }}>
-          Success!
+          sx={{ width: "100%" }}
+        >
+          Submission is successful. The result will be available shortly.
         </Alert>
       </Snackbar>
       <Snackbar
