@@ -50,6 +50,15 @@ const AppRouter = (props) => {
           <NotFoundPage errorText={"Please logout first"} />
         )}
       </Route>
+      <Route path="/">
+        {currentUser === "null" ||
+        currentUser === "" ||
+        currentUser === null ? (
+          <Login />
+        ) : (
+          <NotFoundPage errorText={"Please logout first"} />
+        )}
+      </Route>
     </Switch>
   );
 };
