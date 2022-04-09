@@ -135,7 +135,7 @@ export default function ChallengeInfoEditable(props) {
           <Typography sx={{ width: "33%", flexShrink: 0 }}>
             Challenge Name
           </Typography>
-          <Typography sx={{ color: "text.secondary" }}>name</Typography>
+          <Typography sx={{ color: "text.secondary" }}>Name</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <TextField
@@ -160,7 +160,7 @@ export default function ChallengeInfoEditable(props) {
           <Typography sx={{ width: "33%", flexShrink: 0 }}>
             General Description
           </Typography>
-          <Typography sx={{ color: "text.secondary" }}>description</Typography>
+          <Typography sx={{ color: "text.secondary" }}>Description</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <TextField
@@ -187,7 +187,7 @@ export default function ChallengeInfoEditable(props) {
             Attempt Periods
           </Typography>
           <Typography sx={{ color: "text.secondary" }}>
-            Attempt Periods
+            Expiration date
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -214,7 +214,7 @@ export default function ChallengeInfoEditable(props) {
         >
           <Typography sx={{ width: "33%", flexShrink: 0 }}>Datasets</Typography>
           <Typography sx={{ color: "text.secondary" }}>
-            queries for setting up the challenge
+            Schema queries
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -328,7 +328,7 @@ export default function ChallengeInfoEditable(props) {
           <Typography sx={{ width: "33%", flexShrink: 0 }}>
             Sample Solution
           </Typography>
-          <Typography sx={{ color: "text.secondary" }}>solution</Typography>
+          <Typography sx={{ color: "text.secondary" }}>Solution</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <CodeEditor
@@ -405,7 +405,7 @@ export default function ChallengeInfoEditable(props) {
         </Alert>
       </Snackbar>
       <Snackbar
-        open={displayError}
+        open={true}
         autoHideDuration={2000}
         onClose={() => setDisplayError(false)}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -415,7 +415,7 @@ export default function ChallengeInfoEditable(props) {
           severity="error"
           sx={{ width: "100%" }}
         >
-          Code is required. Please enter your code.
+          Error. Sample solution is required.
         </Alert>
       </Snackbar>
     </div>

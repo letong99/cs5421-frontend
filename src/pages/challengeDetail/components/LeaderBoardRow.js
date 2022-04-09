@@ -116,7 +116,7 @@ export default function LeaderBoardRow(props) {
                   </Grid>
                 </Box>
                 <CopyBlock
-                  text={`SELECT * FROM db;`}
+                  text={row.query}
                   language={"sql"}
                   //   showLineNumbers={showLineNumbers}
                   //   startingLineNumber={startingLineNumber}

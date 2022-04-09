@@ -31,7 +31,7 @@ function Copyright(props) {
     >
       {"Copyright © "}
       <Link color="inherit" href="#">
-        Your Website
+        CS5421
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -68,6 +68,7 @@ export default function Login() {
         }
       )
       .then((res) => {
+        console.log("return:", res.data.data.id, res.data.data.role)
         pushCurrentUser(res.data.data.id, res.data.data.role);
         history.push(`/challenges`);
       })
