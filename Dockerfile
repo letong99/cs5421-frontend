@@ -1,4 +1,3 @@
-// Dockerfile
 FROM node:11-alpine as builder
 WORKDIR /app
 COPY package.json .
