@@ -34,6 +34,10 @@
     "react-simple-code-editor": "^0.11.0",
     "start": "^5.1.0",
     "web-vitals": "^2.1.4",
+    "@mui/lab": "^5.0.0-alpha.74",
+    "dotenv": "^16.0.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.7",
     "webpack": "^5.70.0",
     "webpack-cli": "^4.9.2"
   },
