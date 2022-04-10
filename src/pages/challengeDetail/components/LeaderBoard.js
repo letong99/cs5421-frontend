@@ -308,6 +308,7 @@ export default function LeaderBoard(props) {
                           selected={isItemSelected}
                           row={row}
                           attempt_id={row.attempt_id}
+                          handleRefresh={props.handleRefresh}
                         >
                           {/* <TableCell padding="checkbox">
                         <Checkbox

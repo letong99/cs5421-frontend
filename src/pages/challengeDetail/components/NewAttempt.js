@@ -49,6 +49,7 @@ export default function NewAttempt(props) {
         console.log(res);
         props.handleSuccess();
         props.handleClose();
+        props.handleRefresh();
       })
       .catch((res) => {
         handleError(res);

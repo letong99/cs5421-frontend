@@ -92,6 +92,7 @@ export default function ChallengeDetail(props) {
   let [displaySuccess, setDisplaySuccess] = useState(false);
   let [displayError, setDisplayError] = useState(false);
   let [notFound, setNotFound] = useState(false);
+  let [refresh, setRefresh] = useState(false);
 
   const handleCloseNewAttempt = () => {
     setDisplayNewAttemptDialogue(false);
@@ -144,6 +145,54 @@ export default function ChallengeDetail(props) {
       });
   }, []);
 
+  useEffect(() => {
+    // fetch from APIs
+    console.log(currentUser, currentUserRole, id);
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/challenges/${id.id}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setChallengName(res.data.data.name);
+        setTestCases(res.data.data.test_cases);
+        setDescription(res.data.data.description);
+        setSolution(res.data.data.solution);
+        setCreatedDate(res.data.data.created_at);
+        setSchema(res.data.data.init);
+        setTopAttempts(res.data.data.top_attempts);
+        setExpirationDate(res.data.data.expires_at);
+        setChallengeType(res.data.data.type);
+        axios
+          .get(
+            `${process.env.REACT_APP_API_URL}/users/${res.data.data.created_user_id}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then((res) => {
+            setCreator(res.data.data.full_name);
+          })
+          .catch((res) => {
+            console.log(res);
+            // setNotFound(true);
+          });
+      })
+      .catch((res) => {
+        // console.log(res);
+        setNotFound(true);
+      });
+  }, [refresh]);
+
+  const handleRefresh = () => {
+    setRefresh(!refresh);
+  }
+
+
   return notFound ? (
     <Grid
       container
@@ -188,7 +237,7 @@ export default function ChallengeDetail(props) {
         Created at {createdDate} by {creator}
       </Divider>
       <Container disableGutters component="main" sx={{ pt: 8, pb: 6 }}>
-        <Leaderboard rows={topAttempts} />
+        <Leaderboard rows={topAttempts} handleRefresh={handleRefresh}/>
       </Container>
       {/* End hero unit */}
       <Container disableGutters component="main" sx={{ pt: 8, pb: 6 }}>
@@ -259,6 +308,7 @@ export default function ChallengeDetail(props) {
           expirationDate={expirationDate}
           description={description}
           type={challengeType}
+          handleRefresh={handleRefresh}
         />
       </Dialog>
       <Snackbar

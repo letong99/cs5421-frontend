@@ -43,6 +43,7 @@ export default function LeaderBoardRow(props) {
     }
   }, []);
 
+
   const handleInvalidate = () => {
     console.log("invalidate");
     axios
@@ -58,7 +59,7 @@ export default function LeaderBoardRow(props) {
         console.log(res);
         setDisplaySuccess(true)
         setConfirm(false);
-        
+        props.handleRefresh();
       })
       .catch((res) => {
         setDisplayError(true)
