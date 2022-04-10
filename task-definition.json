@@ -46,7 +46,7 @@
       "dockerLabels": null,
       "systemControls": null,
       "privileged": null,
-      "name": "react-container"
+      "name": "reactAppContainer"
     }
   ],
   "placementConstraints": [],
@@ -56,8 +56,8 @@
     "EXTERNAL",
     "EC2"
   ],
-  "taskDefinitionArn": "arn:aws:ecs:us-east-1:802357226926:task-definition/react-container:1",
-  "family": "react-container",
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:802357226926:task-definition/deployContainer:1",
+  "family": "deployContainer",
   "requiresAttributes": [
     {
       "targetId": null,
