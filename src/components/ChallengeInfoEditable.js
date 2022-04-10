@@ -38,10 +38,18 @@ export default function ChallengeInfoEditable(props) {
   let [description, setDescription] = useState("");
   let [solution, setSolution] = useState("");
   let [type, setType] = useState("");
+  let [errorMsg, setErrorMsg] = useState([]);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+
+  const handleError = (error) => {
+    console.log(error.response.data.message);
+    setErrorMsg(error.response.data.message);
+    setDisplayError(true);
+  };
+
 
   const handleInputChange = (e, index, type) => {
     const { value } = e.target;
@@ -94,8 +102,8 @@ export default function ChallengeInfoEditable(props) {
         props.handleClose();
       })
       .catch((res) => {
-        props.handleClose();
-        // handleError(res);
+        // props.handleClose();
+        handleError(res);
       });
 
     // if (testCases === [] || solution === "" || queriesStr === "") {
@@ -405,7 +413,7 @@ export default function ChallengeInfoEditable(props) {
         </Alert>
       </Snackbar>
       <Snackbar
-        open={true}
+        open={displayError}
         autoHideDuration={2000}
         onClose={() => setDisplayError(false)}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -415,7 +423,7 @@ export default function ChallengeInfoEditable(props) {
           severity="error"
           sx={{ width: "100%" }}
         >
-          Error. Sample solution is required.
+          Error. {errorMsg}
         </Alert>
       </Snackbar>
     </div>
