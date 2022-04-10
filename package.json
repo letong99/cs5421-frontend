@@ -1,6 +1,9 @@
 {
   "name": "cs5421_frondend",
   "version": "0.1.0",
+  "engines": {
+    "node": "14.15.1"
+  },
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.8.2",
